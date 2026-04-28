@@ -1,5 +1,2 @@
-testinglist = [1,2,3,4]
+from Flask import Flask
 
-
-for x in testinglist:
-    print(x)
