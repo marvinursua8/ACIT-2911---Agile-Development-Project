@@ -2,10 +2,6 @@ from peewee import Model, AutoField, CharField, DateTimeField, ForeignKeyField, 
 import datetime
 from .database import db
 
-class BaseModel(Model):
-    class Meta:
-        database = db
-
 class User(Model):
     class Meta:
         database = db
