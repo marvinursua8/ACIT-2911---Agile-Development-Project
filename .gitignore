@@ -1,4 +1,10 @@
-.DS_Store
+# Ignore the virtual environment folder
+.venv/
+
+# Ignore the database 
 *.db
+instance/shelter.db
+
+# Ignore Python cache files (good practice)
 __pycache__/
 *.pyc
