@@ -1,6 +1,6 @@
 from flask import current_app, render_template, Blueprint, jsonify
 
-from .. models import User
+from .. models import User, Animal
 
 app1 = Blueprint("home", __name__)
 
@@ -28,3 +28,13 @@ def view_users():
         user_list.append(user.to_dict())
 
     return jsonify(user_list), 200
+
+@app1.route('/pet_info')
+def view_pets():
+    animals_to_view = Animal.select()
+    animal_list = []
+
+    for animal in animals_to_view:
+        animal_list.append(animal.to_dict())
+
+        return jsonify(animal_list), 200

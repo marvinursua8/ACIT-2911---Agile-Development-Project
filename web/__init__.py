@@ -1,7 +1,7 @@
 from flask import Flask
 from pathlib import Path
 from .database import db
-from .models import User
+from .models import User, Animal
 from . import config
 
 def create_app():
@@ -29,7 +29,7 @@ def create_app():
     # print(app.url_map)
 
     with db:
-        db.create_tables([User], safe=True)
+        db.create_tables([User, Animal], safe=True)
 
     return app
 
