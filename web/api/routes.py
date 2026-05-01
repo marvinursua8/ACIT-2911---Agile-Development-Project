@@ -12,7 +12,7 @@ def index():
 
 @app1.route('/adopt')
 def adopt():
-    return "Adopt page"
+    return render_template('adopt.html')
 
 
 @app1.route('/add_pet')
