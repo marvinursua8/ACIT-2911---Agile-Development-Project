@@ -4,4 +4,4 @@ db = SqliteDatabase(":memory:")
 
 class BaseModel(Model):
     class Meta:
-        databse = db
+        database = db
