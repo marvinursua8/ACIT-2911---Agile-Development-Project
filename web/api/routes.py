@@ -1,13 +1,42 @@
 from flask import current_app, render_template, Blueprint, jsonify
 
-from .. models import User, Animal
+from peewee import JOIN
+
+from .. models import User, Animal, Image
 
 app1 = Blueprint("home", __name__)
 
 
 @app1.route('/')
 def index():
-    return render_template('index.html') # test render.
+    animals = (
+        Animal
+        .select(
+            Animal.id,
+            Animal.name,
+            Animal.breed,
+            Animal.gender,
+            Image.url.alias("primary_image")
+        )
+        .join(
+            Image,
+            JOIN.LEFT_OUTER,
+            on=(
+                (Image.animal == Animal.id) &
+                (Image.is_primary == True)
+            )
+        )
+        .order_by(Animal.id.desc())
+        .limit(3)
+        .dicts()
+    )
+    
+    featured_animal_list = []
+
+    for animal in animals:
+        featured_animal_list.append(animal)
+
+    return render_template('index.html', animals=featured_animal_list), 200 # test render.
 
 
 @app1.route('/adopt')
