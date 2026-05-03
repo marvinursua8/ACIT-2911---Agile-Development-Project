@@ -10,5 +10,18 @@
 <body>
     <h1>Animal Adoption </h1>
     <p>Welcome to the index!</p>
+    <h2>Featured Pets</h2>
 </body>
+{% for animal in animals %}
+    <div class="animal-card">
+        <h2>{{ animal.name }}</h2>
+        <p>{{ animal.breed }} - {{ animal.gender }}</p>
+
+        {% if animal.primary_image %}
+            <img src="{{ animal.primary_image }}" style="width:200px;" alt="{{ animal.name }}">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+    </div>
+{% endfor %}
 </html>

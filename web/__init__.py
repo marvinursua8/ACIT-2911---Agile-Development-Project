@@ -2,7 +2,7 @@ from flask import Flask
 # 1. Add the db_url parser
 from playhouse.db_url import connect 
 from .database import db
-from .models import User, Animal
+from .models import User, Animal, Image
 from . import config
 
 # 2. Corrected URL (No brackets, no pgbouncer flag)
@@ -34,6 +34,6 @@ def create_app():
     app.register_blueprint(app1)
 
     with db:
-        db.create_tables([User, Animal], safe=True)
+        db.create_tables([User, Animal, Image], safe=True)
 
     return app
