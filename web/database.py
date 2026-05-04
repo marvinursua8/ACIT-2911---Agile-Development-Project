@@ -1,7 +1,4 @@
-from peewee import Model, SqliteDatabase
+from peewee import Proxy
 
-db = SqliteDatabase(":memory:")
-
-class BaseModel(Model):
-    class Meta:
-        databse = db
+# Create an uninitialized proxy for the database
+db = Proxy()
