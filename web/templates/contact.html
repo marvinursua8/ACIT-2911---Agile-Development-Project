@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Second-Look Adoption</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="{{ url_for('static', filename='styles/styles.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="logo">
+        <a href="{{ url_for('home.index') }}">Second-Look Adoptions</a>
+      </div>
+
+      <nav class="nav-links">
+        <a href="{{ url_for('home.index') }}">Home</a>
+        <a href="{{ url_for('home.gallery') }}">Gallery</a>
+        <a href="{{ url_for('home.adopt') }}">Adopt</a>
+        <a href="{{ url_for('home.forms') }}">Forms</a>
+        <a href="{{ url_for('home.contact') }}" class="active">Contact</a>
+      </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+      <section class="content-section">
+        <h1>Contact Us</h1>
+        <p>Have questions about adoption? We're here to help 🐾</p>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="content-section">
+        <h2>Get in Touch</h2>
+
+        <div class="editable-content">
+          <p>📧 Email: support@secondlook.com</p>
+          <p>📞 Phone: (123) 456-7890</p>
+          <p>📍 Location: Vancouver, BC</p>
+        </div>
+
+        <button class="btn" onclick="goToForm()">Go to Contact Form</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Second-Look Pet Adoption</p>
+    </footer>
+
+    <script>
+      function goToForm() {
+        window.location.href = "{{ url_for('home.forms') }}";
+      }
+    </script>
+  </body>
+</html>
