@@ -1,4 +1,4 @@
-from peewee import Model, AutoField, CharField, DateTimeField, ForeignKeyField, IntegerField, FloatField, BigIntegerField
+from peewee import *
 import datetime
 from .database import db
 
@@ -21,3 +21,13 @@ class User(Model):
             "email": self.email,
             "phone_number": self.phone_number
         }
+
+class Pet(Model):
+    name = CharField()
+    image_path = CharField()
+    description = TextField()
+    age = CharField()
+    breed = CharField()
+
+    class Meta:
+        database = db
