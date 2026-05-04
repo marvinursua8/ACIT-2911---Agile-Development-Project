@@ -1,5 +1,5 @@
 from flask import Flask
-from ..models import db, User, Pet 
+from ..models import db, User, Animal, Image
 
 def create_app():
     app = Flask(__name__)
@@ -10,6 +10,6 @@ def create_app():
 
 
     with db:
-        db.create_tables([User, Pet])
+        db.create_tables([User, Animal, Image])
         
     return app
