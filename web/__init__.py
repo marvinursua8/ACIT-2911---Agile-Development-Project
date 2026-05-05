@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from playhouse.db_url import connect 
 from .database import db
 from .models import User, Animal, Image, Admin
-from . import config
+from .config import Config, DATABASE_PATH
 
 DATABASE_URL="postgresql://postgres.xrygojfhrciovwsakyxk:apples7894561230qweA!@aws-1-us-east-1.pooler.supabase.com:6543/postgres"
 
@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__)
     from .api.routes import app1
     login = LoginManager(app)
+    app.config.from_object(Config)
 
     @login.user_loader
     def load_user(admin_id):
