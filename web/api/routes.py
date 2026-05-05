@@ -95,9 +95,31 @@ def gallery():
     return render_template('gallery.html', animals=featured_animal_list), 200
 
 
-@app1.route('/add_pet')
+@app1.route('/add_pet', methods=['GET', 'POST'])
 def add_pet():
-    return "add new animal here"
+    if request.method == 'POST':
+        default_user = User.get_or_none()  # This will fail if no users exist; replace with proper user selection
+        if not default_user:
+            flash("No users available to assign as owner.")
+            return redirect(url_for('add_pet.html'))
+        
+        pet = Animal(
+            owner=default_user,
+            name=request.form.get("name"),
+            species=request.form.get("species"),
+            breed=request.form.get("breed"),
+            gender=request.form.get("gender"),
+            age=int(request.form.get("age")),
+            size=request.form.get("size"),
+            color=request.form.get("color"),
+            house_trained=request.form.get("house trained"),
+            description=request.form.get("description")
+        )
+        pet.save()
+        flash(f"Pet successfully added")
+        return redirect('add_pet')
+    else:
+        return render_template('add_pet.html'), 200
 
 @app1.route('/user_info')
 def view_users():
