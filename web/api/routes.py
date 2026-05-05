@@ -164,3 +164,20 @@ def view_images():
         image_list.append(image.to_dict())
 
     return jsonify(image_list), 200
+
+@app1.route('/Forms')
+def form():
+    return render_template('form.html')
+
+@app1.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+
+        print(name, email, message)
+
+        return jsonify({"status": "success", "message": "Message Sent !"})
+
+    return render_template('contact.html')
