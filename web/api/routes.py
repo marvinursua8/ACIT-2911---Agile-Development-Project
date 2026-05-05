@@ -4,6 +4,7 @@ from flask import current_app, render_template, Blueprint, jsonify, request, red
 from peewee import JOIN, fn
 
 from .. models import User, Animal, Image
+from .. database import db
 
 app1 = Blueprint("home", __name__)
 
@@ -108,20 +109,27 @@ def add_pet():
         except ValueError:
             flash("Age must be a number")
             return redirect('add_pet')
-
-        pet = Animal(
-            owner=default_user,
-            name=request.form.get("name"),
-            species=request.form.get("species"),
-            breed=request.form.get("breed"),
-            gender=request.form.get("gender"),
-            age=int(request.form.get("age")),
-            size=request.form.get("size"),
-            color=request.form.get("color"),
-            house_trained=request.form.get("house trained"),
-            description=request.form.get("description")
-        )
-        pet.save()
+        with db.atomic() as _:
+            pet = Animal(
+                owner=default_user,
+                name=request.form.get("name"),
+                species=request.form.get("species"),
+                breed=request.form.get("breed"),
+                gender=request.form.get("gender"),
+                age=int(request.form.get("age")),
+                size=request.form.get("size"),
+                color=request.form.get("color"),
+                house_trained=request.form.get("house trained"),
+                description=request.form.get("description")
+            )
+            pet.save() 
+            image = Image(
+                url=request.form.get("url"),
+                animal=pet,
+                is_primary = True
+            )
+            image.save()
+        
         flash(f"Pet successfully added")
         return redirect('add_pet')
     else:
