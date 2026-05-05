@@ -10,6 +10,7 @@ DATABASE_URL="postgresql://postgres.xrygojfhrciovwsakyxk:apples7894561230qweA!@a
 
 def create_app():
     app = Flask(__name__)
+    app.config['SECRET_KEY'] = config.SECRET_KEY
     from .api.routes import app1
 
     # --- DELETE THE OLD SQLITE CODE ---
