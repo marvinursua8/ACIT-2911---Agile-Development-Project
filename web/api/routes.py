@@ -74,10 +74,6 @@ def gallery():
     return render_template('gallery.html', animals=featured_animal_list), 200
 
 
-@app1.route('/add_pet')
-def add_pet():
-    return "add new animal here"
-
 @app1.route('/user_info')
 def view_users():
     users_to_view = User.select()
@@ -97,3 +93,8 @@ def view_pets():
         animal_list.append(animal.to_dict())
 
         return jsonify(animal_list), 200
+    
+
+@app1.route('/add_pet')
+def add_pet():
+    return render_template('addpet.html')
