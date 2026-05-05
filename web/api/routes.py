@@ -101,8 +101,14 @@ def add_pet():
         default_user = User.get_or_none()  # This will fail if no users exist; replace with proper user selection
         if not default_user:
             flash("No users available to assign as owner.")
-            return redirect(url_for('add_pet.html'))
+            return redirect('add_pet')
         
+        try:
+            int(request.form.get("age"))
+        except ValueError:
+            flash("Age must be a number")
+            return redirect('add_pet')
+
         pet = Animal(
             owner=default_user,
             name=request.form.get("name"),
