@@ -26,7 +26,7 @@
         <a href="{{ url_for('home.index') }}">Home</a>
         <a href="{{ url_for('home.gallery') }}">Gallery</a>
         <a href="{{ url_for('home.adopt') }}" class="active">Adopt</a>
-        <a href="{{ url_for('home.forms') }}">Forms</a>
+        <a href="{{ url_for('home.form') }}">Forms</a>
         <a href="{{ url_for('home.contact') }}">Contact</a>
       </nav>
     </header>
@@ -79,7 +79,7 @@
 
     <script>
       function goToForm() {
-        window.location.href = "{{ url_for('home.forms') }}";
+        window.location.href = "{{ url_for('home.form') }}";
       }
     </script>
   </body>
