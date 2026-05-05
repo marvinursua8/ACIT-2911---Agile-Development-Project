@@ -154,3 +154,13 @@ def view_pets():
         animal_list.append(animal.to_dict())
 
     return jsonify(animal_list), 200
+
+@app1.route('/image_info')
+def view_images():
+    images_to_view = Image.select()
+    image_list = []
+
+    for image in images_to_view:
+        image_list.append(image.to_dict())
+
+    return jsonify(image_list), 200
