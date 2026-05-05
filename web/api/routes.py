@@ -63,6 +63,14 @@ def adopt():
 
     return render_template('adopt.html', animals=animals)
 
+@app1.route('/form')
+def form():
+    return render_template('form.html')
+
+@app1.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 @app1.route('/gallery')
 def gallery():
     animals = (
