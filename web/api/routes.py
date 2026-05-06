@@ -7,6 +7,7 @@ from .. models import User, Animal, Image, Admin
 from flask_login import current_user, login_user, logout_user
 from .. forms import LoginForm
 from .. config import Config
+from .. database import db
 
 app1 = Blueprint("home", __name__)
 # app1.config['SECRET_KEY'] = 'some-super-secret-string-here'
@@ -98,6 +99,45 @@ def gallery():
     return render_template('gallery.html', animals=featured_animal_list), 200
 
 
+@app1.route('/add_pet', methods=['GET', 'POST'])
+def add_pet():
+    if request.method == 'POST':
+        default_user = User.get_or_none()  # This will fail if no users exist; replace with proper user selection
+        if not default_user:
+            flash("No users available to assign as owner.")
+            return redirect('add_pet')
+        
+        try:
+            int(request.form.get("age"))
+        except ValueError:
+            flash("Age must be a number")
+            return redirect('add_pet')
+        with db.atomic() as _:
+            pet = Animal(
+                owner=default_user,
+                name=request.form.get("name"),
+                species=request.form.get("species"),
+                breed=request.form.get("breed"),
+                gender=request.form.get("gender"),
+                age=int(request.form.get("age")),
+                size=request.form.get("size"),
+                color=request.form.get("color"),
+                house_trained=request.form.get("house trained"),
+                description=request.form.get("description")
+            )
+            pet.save() 
+            image = Image(
+                url=request.form.get("url"),
+                animal=pet,
+                is_primary = True
+            )
+            image.save()
+        
+        flash(f"Pet successfully added")
+        return redirect('add_pet')
+    else:
+        return render_template('add_pet.html'), 200
+
 @app1.route('/user_info')
 def view_users():
     users_to_view = User.select()
@@ -116,8 +156,18 @@ def view_pets():
     for animal in animals_to_view:
         animal_list.append(animal.to_dict())
 
-        return jsonify(animal_list), 200
+    return jsonify(animal_list), 200
     
+    
+@app1.route('/image_info')
+def view_images():
+    images_to_view = Image.select()
+    image_list = []
+
+    for image in images_to_view:
+        image_list.append(image.to_dict())
+
+    return jsonify(image_list), 200
 
 
 @app1.route('/login', methods=['GET', 'POST'])
@@ -147,6 +197,7 @@ def admin_dashboard():
 def logout():
     logout_user()
     return redirect(url_for('home.index'))
+
 
 @app1.route('/Forms')
 def form():

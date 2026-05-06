@@ -9,9 +9,9 @@ DATABASE_URL="postgresql://postgres.xrygojfhrciovwsakyxk:apples7894561230qweA!@a
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_object(Config)
     from .api.routes import app1
     login = LoginManager(app)
-    app.config.from_object(Config)
 
     @login.user_loader
     def load_user(admin_id):
