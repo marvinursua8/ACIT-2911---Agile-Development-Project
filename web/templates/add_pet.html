@@ -56,10 +56,10 @@
       <!-- FORM -->
       <!-- Probably should change action to the adoption provider's page once implemented -->
       <!-- Don't forget to move or remove the jinja message handling above -->
-      <section action="/add_pet", class="content-section"> 
+      <section class="content-section">
         <div class="form-card">
           <!-- for (Flask/Supabase） -->
-          <form method="POST">
+          <form method="POST" action="{{ url_for('home.add_pet') }}">
             <label>Name</label>
             <input type="text" name="name" required />
 
