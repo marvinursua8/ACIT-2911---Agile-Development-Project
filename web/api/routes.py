@@ -1,13 +1,16 @@
-from flask import current_app, render_template, Blueprint, jsonify, request, redirect, url_for, flash
+from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect,request
 
 
 from peewee import JOIN, fn
 
-from .. models import User, Animal, Image
+from .. models import User, Animal, Image, Admin
+from flask_login import current_user, login_user, logout_user
+from .. forms import LoginForm
+from .. config import Config
 from .. database import db
 
 app1 = Blueprint("home", __name__)
-
+# app1.config['SECRET_KEY'] = 'some-super-secret-string-here'
 
 @app1.route('/')
 def index():
@@ -154,7 +157,8 @@ def view_pets():
         animal_list.append(animal.to_dict())
 
     return jsonify(animal_list), 200
-
+    
+    
 @app1.route('/image_info')
 def view_images():
     images_to_view = Image.select()
@@ -164,6 +168,36 @@ def view_images():
         image_list.append(image.to_dict())
 
     return jsonify(image_list), 200
+
+
+@app1.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home.admin_dashboard'))
+    
+    form = LoginForm()
+    if form.validate_on_submit():
+        admin = Admin.get_or_none(Admin.username == form.username.data)
+        
+        if admin is None or not admin.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('home.login'))
+            
+        login_user(admin, remember=form.remember_me.data)
+        print("authenticated!")
+        return redirect(url_for('home.admin_dashboard'))
+    
+    return render_template('adminlogin.html', title='Sign In', form=form)
+
+@app1.route('/admin_dashboard')
+def admin_dashboard():
+    return render_template('admin_dashboard.html')
+
+@app1.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home.index'))
+
 
 @app1.route('/Forms')
 def form():
