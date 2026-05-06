@@ -1,4 +1,5 @@
-from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect
+from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect,request
+
 
 from peewee import JOIN, fn
 
@@ -43,7 +44,27 @@ def index():
 
 @app1.route('/adopt')
 def adopt():
-    return render_template('adopt.html')
+    animals = (
+        Animal
+        .select(
+            Animal.id,
+            Animal.name,
+            Animal.breed,
+            Animal.gender,
+            Image.url.alias("primary_image")
+        )
+        .join(
+            Image,
+            JOIN.LEFT_OUTER,
+            on=(
+                (Image.animal == Animal.id) &
+                (Image.is_primary == True)
+            )
+        )
+        .dicts()
+    )
+
+    return render_template('adopt.html', animals=animals)
 
 @app1.route('/gallery')
 def gallery():
@@ -126,3 +147,20 @@ def admin_dashboard():
 def logout():
     logout_user()
     return redirect(url_for('home.index'))
+
+@app1.route('/Forms')
+def form():
+    return render_template('form.html')
+
+@app1.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+
+        print(name, email, message)
+
+        return jsonify({"status": "success", "message": "Message Sent !"})
+
+    return render_template('contact.html')
