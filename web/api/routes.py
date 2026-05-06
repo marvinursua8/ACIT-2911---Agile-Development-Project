@@ -3,7 +3,7 @@ from flask import current_app, render_template, Blueprint, jsonify, flash, url_f
 from peewee import JOIN, fn
 
 from .. models import User, Animal, Image, Admin
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 from .. forms import LoginForm
 from .. config import Config
 
@@ -98,22 +98,11 @@ def view_pets():
         return jsonify(animal_list), 200
     
 
-# @app1.route('/login', methods=['GET', 'POST']) # Add methods!
-# def login():
-#     form = LoginForm()
-    
-#     # This checks if it's a POST request and the CSRF token is valid
-#     if form.validate_on_submit(): 
-#         # Do your login logic here (checking the database, etc.)
-#         pass
-        
-#     return render_template('adminlogin.html', title='Sign In', form=form)
-
 
 @app1.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home.admin_dashboard'))
     
     form = LoginForm()
     if form.validate_on_submit():
@@ -121,11 +110,19 @@ def login():
         
         if admin is None or not admin.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('home.login'))
             
-        # Log the admin in! 
         login_user(admin, remember=form.remember_me.data)
-        return redirect(url_for('index.html'))
+        print("authenticated!")
+        return redirect(url_for('home.admin_dashboard'))
     
-    print("authenticated!")
     return render_template('adminlogin.html', title='Sign In', form=form)
+
+@app1.route('/admin_dashboard')
+def admin_dashboard():
+    return render_template('admin_dashboard.html')
+
+@app1.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home.index'))
