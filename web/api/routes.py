@@ -87,7 +87,6 @@ def gallery():
             )
         )
         .order_by(Animal.id.desc())
-        .limit(3)
         .dicts()
     )
     
