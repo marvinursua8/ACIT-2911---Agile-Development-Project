@@ -122,7 +122,7 @@ def add_pet():
                 age=int(request.form.get("age")),
                 size=request.form.get("size"),
                 color=request.form.get("color"),
-                house_trained=request.form.get("house trained"),
+                house_trained=request.form.get("house_trained"),
                 description=request.form.get("description")
             )
             pet.save() 
@@ -134,7 +134,7 @@ def add_pet():
             image.save()
         
         flash(f"Pet successfully added")
-        return redirect('add_pet')
+        return render_template('add_pet.html'), 201
     else:
         return render_template('add_pet.html'), 200
 
