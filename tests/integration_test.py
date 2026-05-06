@@ -1,6 +1,6 @@
 import pytest
 from .shared import client, ANIMAL_DATA, TEST_IMAGE_URL
-from web.models import Animal, User
+from web.models import Animal, User, Image
 from web.database import db
 
 class TestIndex:
@@ -20,3 +20,6 @@ class TestAddPet:
         assert response.status_code == 201
         pet = Animal.get_or_none(Animal.name == "Mr. Test")
         assert pet is not None
+        # cleanup
+        Image.delete().where(Image.animal_id == pet.id).execute()
+        Animal.delete().where(Animal.id == pet.id).execute()
