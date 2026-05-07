@@ -1,6 +1,8 @@
 from peewee import Model, AutoField, CharField, ForeignKeyField, IntegerField, BooleanField, Check
 import datetime
 from .database import db
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(Model):
     class Meta:
@@ -71,3 +73,22 @@ class Image(Model):
             "animal_id": self.animal.id,
             "is_primary": self.is_primary
         }
+    
+class Admin(UserMixin, Model):
+    id = AutoField()
+    username = CharField(unique=True) 
+    password_hash = CharField()
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def get_id(self):
+        return str(self.id)
+
+    class Meta:
+        database = db
+        table_name = "admin"
+
