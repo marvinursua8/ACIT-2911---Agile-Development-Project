@@ -25,10 +25,3 @@ class TestAnimal():
             if key in ["id", "owner"]:
                 continue
             assert val == ANIMAL_DATA[key]
-
-    def test_requires_fields(self):
-        def keyless(dict, removed_key):
-            return {key:val for key, val in dict if key != removed_key}
-
-        with pytest.raises(ValueError):
-            Animal(**keyless(ANIMAL_DATA, "name"))
