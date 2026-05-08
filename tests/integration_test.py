@@ -25,7 +25,7 @@ class TestAddPet:
         Animal.delete().where(Animal.id == pet.id).execute()
 
 class TestPrimaryImage:
-        def test_shows_primary_image_on_home_page(self):
+        def test_animal_primary_image(self):
             """Each pet can have multiple images. To determine which of its images to show on the home page's Featured Pets section., every image has an is_primary attribute that is either True or False. If an image has is_primary = True, then it will be shown in Featured Pets. """
             try:
                 test_animal = Animal.create(
