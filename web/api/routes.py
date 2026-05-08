@@ -198,8 +198,28 @@ def logout():
     return redirect(url_for('home.index'))
 
 
-@app1.route('/Forms')
+@app1.route('/Forms', methods=['GET', 'POST'])
 def form():
+
+    if request.method == 'POST':
+
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        reason = request.form.get('reason')
+        message = request.form.get('message')
+
+        if not name or not email or not phone or not reason or not message:
+            return jsonify({
+                "status": "error",
+                "message": "All fields are required"
+            }), 400
+
+        return jsonify({
+            "status": "success",
+            "message": "Message Sent !"
+        }), 200
+
     return render_template('form.html')
 
 @app1.route('/contact', methods=['GET', 'POST'])
