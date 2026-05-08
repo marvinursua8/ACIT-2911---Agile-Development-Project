@@ -104,14 +104,14 @@ def add_pet():
         default_user = User.get_or_none()  # This will fail if no users exist; replace with proper user selection
         if not default_user:
             flash("No users available to assign as owner.")
-            return redirect('add_pet')
+            return redirect(url_for('home.add_pet'))
         
         try:
             int(request.form.get("age"))
         except ValueError:
             flash("Age must be a number")
-            return redirect('add_pet')
-        with db.atomic() as _:
+            return redirect(url_for('home.add_pet'))
+        with db.atomic():
             pet = Animal(
                 owner=default_user,
                 name=request.form.get("name"),
@@ -133,7 +133,7 @@ def add_pet():
             image.save()
         
         flash(f"Pet successfully added")
-        return render_template('add_pet.html'), 201
+        return redirect(url_for('home.add_pet')), 302
     else:
         return render_template('add_pet.html'), 200
 

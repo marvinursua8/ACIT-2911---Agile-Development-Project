@@ -17,7 +17,7 @@ class TestAddPet:
         data = ANIMAL_DATA
         data["url"] = TEST_IMAGE_URL
         response = client.post("/add_pet", data=ANIMAL_DATA, follow_redirects=True)
-        assert response.status_code == 201
+        assert response.status_code == 200
         pet = Animal.get_or_none(Animal.name == "Mr. Test")
         assert pet is not None
         # cleanup
