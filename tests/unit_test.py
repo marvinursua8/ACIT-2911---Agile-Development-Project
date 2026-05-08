@@ -28,7 +28,13 @@ class TestAnimal():
 
 class TestPrimaryImage:
     def test_animal_primary_image(self):
-        """Each pet can have multiple images. To determine which of its images to show on the home page's Featured Pets section, every image has an is_primary attribute that is either True or False. If an image has is_primary = True, then it will be shown in Featured Pets. """
+        """
+        This is the second test related to primary images (for the first one, see integration_test.py).
+
+        Rather than testing the home page, this simply temporarily creates a test animal, then runs a SELECT statement that includes a primary image in its JOIN clause. Similar to the first test, it compares the queried primary image to the one stored in shared.py.
+
+        While the first test ensures that the home page shows the correct image, this one ensures that its underlying query contains the correct image.
+        """
         try:
             test_animal = Animal.create(
                 owner=TEST_USER_ID,
