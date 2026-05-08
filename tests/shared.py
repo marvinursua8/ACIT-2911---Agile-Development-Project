@@ -16,6 +16,8 @@ ANIMAL_DATA = {
 
 TEST_IMAGE_URL = "www.example.com/test.jpg"
 
+TEST_NON_PRIMARY_IMAGE_URL = "www.example.com/test2.jpg"
+
 TEST_USER_ID = 3 # Jane Doe
 
 @pytest.fixture(scope="module")
