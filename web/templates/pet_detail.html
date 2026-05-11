@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Needed:
+ A way to view all images (not just the primary)
+ Adoption agency information 
+ Adopt button -->
+<!-- Wanted:
+ Make the gallery page cards appear clickable (beveled border?)
+ Reduce Cumulative Layout Shift (always a problem but moreso here) -->
+<main class="page-container">
+    <div class="card">
+        <h2>{{ animal.name }}</h2>
+        {% if primary_image %}
+        <img class="detail-page-image" src="{{ primary_image.url }}" alt="{{ animal.name }}">
+        {% endif %}
+        <p><strong>Species:</strong> {{ animal.species }}</p>
+        <p><strong>Breed:</strong> {{ animal.breed }}</p>
+        <p><strong>Gender:</strong> {{ animal.gender }}</p>
+        <p><strong>Age:</strong> {{ animal.age }}</p>
+        <p><strong>Size:</strong> {{ animal.size }}</p>
+        <p><strong>Color:</strong> {{ animal.color }}</p>
+        <p><strong>{{ animal.house_trained }}</strong></p>
+        <p><strong>Description:</strong> {{ animal.description }}</p>
+    </div>
+</main>
+{% endblock %}

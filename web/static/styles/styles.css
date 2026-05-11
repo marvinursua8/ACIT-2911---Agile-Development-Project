@@ -217,6 +217,25 @@ footer {
   opacity: 1;
 }
 
+/* Whole box link */
+.inter-page-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+}
+
+/* Pet Details Pages Layout */
+
+.detail-page-image {
+  max-width: 100%; 
+  height: auto; 
+  border-radius: 8px;
+}
+
 /* RESPONSIVE: Mobile Width (Phone) */
 @media (max-width: 768px) {
   .gallery-card {
