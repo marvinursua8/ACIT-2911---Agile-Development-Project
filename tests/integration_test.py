@@ -1,5 +1,5 @@
 import pytest
-from .shared import client, pet, ANIMAL_DATA, TEST_IMAGE_URL, TEST_USER_ID, TEST_NON_PRIMARY_IMAGE_URL
+from .shared import client, add_pet, get_pet, ANIMAL_DATA, TEST_IMAGE_URL, TEST_USER_ID, TEST_NON_PRIMARY_IMAGE_URL
 from web.models import Animal, User, Image
 from web.database import db
 
@@ -29,16 +29,27 @@ class TestGallery:
             assert pet.breed in response_text
             assert pet.gender in response_text
 
+class TestPetDetails:
+    def test_returns_200(self, client, add_pet, get_pet):
+        response = client.get(f"/pet/{get_pet.id}")
+        assert response.status_code == 200
+
+    def test_all_data_shows(self, client, add_pet, get_pet):
+        response = client.get(f"/pet/{get_pet.id}")
+        assert response.status_code == 200
+        response_text = response.get_data(as_text=True)
+        for key, value in ANIMAL_DATA.items():
+            if key not in ["owner"]:
+                assert value in response_text
 
 
 class TestAddPet:
-    def test_add_pet(self, client, pet):
+    def test_add_pet(self, client, get_pet):
         data = ANIMAL_DATA
         data["url"] = TEST_IMAGE_URL
         response = client.post("/add_pet", data=ANIMAL_DATA, follow_redirects=True)
         assert response.status_code == 200
-        pet = Animal.get_or_none(Animal.name == data["name"])
-        assert pet is not None
+        assert get_pet is not None
 
 class TestHomepagePetImage:
     def test_homepage_shows_primary_image(self, client):
