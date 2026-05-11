@@ -1,5 +1,5 @@
 import pytest
-from .shared import client, ANIMAL_DATA, TEST_IMAGE_URL, TEST_USER_ID, TEST_NON_PRIMARY_IMAGE_URL
+from .shared import client, pet, ANIMAL_DATA, TEST_IMAGE_URL, TEST_USER_ID, TEST_NON_PRIMARY_IMAGE_URL
 from web.models import Animal, User, Image
 from web.database import db
 
@@ -32,16 +32,13 @@ class TestGallery:
 
 
 class TestAddPet:
-    def test_add_pet(self, client):
+    def test_add_pet(self, client, pet):
         data = ANIMAL_DATA
         data["url"] = TEST_IMAGE_URL
         response = client.post("/add_pet", data=ANIMAL_DATA, follow_redirects=True)
         assert response.status_code == 200
-        pet = Animal.get_or_none(Animal.name == "Mr. Test")
+        pet = Animal.get_or_none(Animal.name == data["name"])
         assert pet is not None
-        # cleanup
-        Image.delete().where(Image.animal_id == pet.id).execute()
-        Animal.delete().where(Animal.id == pet.id).execute()
 
 class TestHomepagePetImage:
     def test_homepage_shows_primary_image(self, client):

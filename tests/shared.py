@@ -1,5 +1,6 @@
 import pytest
 from web import create_app
+from web.models import Animal, Image
 
 ANIMAL_DATA = {
     "owner": "DUMMY_OWNER",
@@ -26,3 +27,10 @@ def client():
     app.config["TESTING"] = True
     with app.test_client() as client:
         yield client
+
+@pytest.fixture(scope="module")
+def pet():
+    yield Animal.get_or_none(Animal.name == ANIMAL_DATA["name"])
+    # cleanup
+    Image.delete().where(Image.animal_id == pet.id).execute()
+    Animal.delete().where(Animal.id == pet.id).execute()
