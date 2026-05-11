@@ -12,6 +12,25 @@ class TestIndex:
         response = client.get("/")
         assert b"gallery-card" in response.data
 
+class TestGallery:
+    def test_returns_200(self, client):
+        response = client.get("/gallery")
+        assert response.status_code == 200
+
+    def test_all_pets_show(self, client):
+        all_pets = list(Animal.select())
+        response = client.get("/gallery")
+        # check if all pets show
+        assert response.data.count(b"gallery-card") == len(all_pets)
+        # check if all desired data is found 
+        response_text = response.get_data(as_text=True)
+        for pet in all_pets:
+            assert pet.name in response_text
+            assert pet.breed in response_text
+            assert pet.gender in response_text
+
+
+
 class TestAddPet:
     def test_add_pet(self, client):
         data = ANIMAL_DATA
