@@ -10,7 +10,14 @@
     />
   </head>
   <body>
-    <p>TEST</p>
-    <a href="{{ url_for('home.logout')  }}">Logout</a>
+    <h1>Admin Dashboard</h1>
+    <div class="sidenav">
+      <a href="{{ url_for('home.add_pet')}}">Add Pet</a>
+      <a href="{{ url_for('home.adoptions')}}">Adoption checklist</a>
+      <a href="{{ url_for('home.logout')  }}">Logout</a>
+    </div>
+    <p>
+      for owners that want to adopt, we see their description of the dog they want to accept, and we as an admin can press a button to accept or deny it.
+    </p>
   </body>
 </html>

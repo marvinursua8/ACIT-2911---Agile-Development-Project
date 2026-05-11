@@ -197,6 +197,10 @@ def logout():
     logout_user()
     return redirect(url_for('home.index'))
 
+@app1.route('/adoptions')
+def adoptions():
+    return render_template('adoptions.html')
+
 
 @app1.route('/Forms', methods=['GET', 'POST'])
 def form():
