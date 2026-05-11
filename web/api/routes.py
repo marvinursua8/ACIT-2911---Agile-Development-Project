@@ -99,6 +99,18 @@ def gallery():
     return render_template('gallery.html', title="Gallery", animals=featured_animal_list), 200
 
 
+@app1.route('/pet/<int:pet_id>')
+def pet_detail(pet_id):
+    animal = Animal.get_or_none(Animal.id == pet_id)
+    if not animal:
+        flash("Pet not found")
+        return redirect(url_for('home.gallery'))
+    
+    primary_image = Image.get_or_none(Image.animal == animal, Image.is_primary == True)
+    
+    return render_template('pet_detail.html', title=animal.name, animal=animal, primary_image=primary_image)
+
+
 @app1.route('/add_pet', methods=['GET', 'POST'])
 def add_pet():
     if request.method == 'POST':
