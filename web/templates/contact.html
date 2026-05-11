@@ -1,119 +1,82 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Us - Second-Look Adoption</title>
+{% extends 'base.html' %}
+{% block content %}
+<!-- MAIN -->
+<main>
+  <section class="content-section">
+    <h1>Contact Us</h1>
+    <p>Have questions about adoption? We're here to help 🐾</p>
+  </section>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+  <hr class="divider" />
 
-    <link
-      href="{{ url_for('static', filename='styles/styles.css') }}"
-      rel="stylesheet"
-    />
-  </head>
+  <section class="content-section">
+    <h2>Get in Touch</h2>
 
-  <body>
-    <!-- NAVBAR -->
-    <header class="navbar">
-      <div class="logo">
-        <a href="{{ url_for('home.index') }}">Second-Look Adoptions</a>
-      </div>
+    <div class="editable-content">
+      <p>📧 Email: support@secondlook.com</p>
+      <p>📞 Phone: (123) 456-7890</p>
+      <p>📍 Location: Vancouver, BC</p>
+    </div>
+  </section>
 
-      <nav class="nav-links">
-        <a href="{{ url_for('home.index') }}">Home</a>
-        <a href="{{ url_for('home.gallery') }}">Gallery</a>
-        <a href="{{ url_for('home.adopt') }}">Adopt</a>
-        <a href="{{ url_for('home.form') }}">Forms</a>
-        <a href="{{ url_for('home.contact') }}" class="active">Contact</a>
-      </nav>
-    </header>
+  <!-- FORM -->
+  <section class="content-section">
+    <h3>Send us a message</h3>
 
-    <!-- MAIN -->
-    <main>
-      <section class="content-section">
-        <h1>Contact Us</h1>
-        <p>Have questions about adoption? We're here to help 🐾</p>
-      </section>
+    <form id="contactForm" autocomplete="off" class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea
+        name="message"
+        placeholder="Your Message"
+        required
+      ></textarea>
 
-      <hr class="divider" />
+      <button type="submit">Send</button>
+    </form>
+  </section>
+</main>
 
-      <section class="content-section">
-        <h2>Get in Touch</h2>
+<!-- AJAX SCRIPT -->
+<script>
+  document
+    .getElementById("contactForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-        <div class="editable-content">
-          <p>📧 Email: support@secondlook.com</p>
-          <p>📞 Phone: (123) 456-7890</p>
-          <p>📍 Location: Vancouver, BC</p>
-        </div>
-      </section>
+      const formData = new FormData(this);
 
-      <!-- FORM -->
-      <section class="content-section">
-        <h3>Send us a message</h3>
+      const response = await fetch("/contact", {
+        method: "POST",
+        body: formData,
+      });
 
-        <form id="contactForm" class="contact-form">
-          <input type="text" name="name" placeholder="Your Name" required />
-          <input type="email" name="email" placeholder="Your Email" required />
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            required
-          ></textarea>
+      const data = await response.json();
 
-          <button type="submit">Send</button>
-        </form>
-      </section>
-    </main>
-
-    <footer>
-      <p>&copy; 2026 Second-Look Pet Adoption</p>
-    </footer>
-
-    <!-- AJAX SCRIPT -->
-    <script>
-      document
-        .getElementById("contactForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const formData = new FormData(this);
-
-          const response = await fetch("/contact", {
-            method: "POST",
-            body: formData,
-          });
-
-          const data = await response.json();
-
-          if (data.status === "success") {
-            showMessage(data.message);
-            this.reset();
-          }
-        });
-
-      function showMessage(msg) {
-        const box = document.createElement("div");
-        box.innerText = msg;
-
-        box.style.position = "fixed";
-        box.style.top = "20px";
-        box.style.right = "20px";
-        box.style.background = "green";
-        box.style.color = "white";
-        box.style.padding = "12px 16px";
-        box.style.borderRadius = "8px";
-        box.style.zIndex = "9999";
-
-        document.body.appendChild(box);
-
-        setTimeout(() => {
-          box.remove();
-        }, 2000);
+      if (data.status === "success") {
+        showMessage(data.message);
+        this.reset();
       }
-    </script>
-  </body>
-</html>
+    });
+
+  function showMessage(msg) {
+    const box = document.createElement("div");
+    box.innerText = msg;
+
+    box.style.position = "fixed";
+    box.style.top = "20px";
+    box.style.right = "20px";
+    box.style.background = "green";
+    box.style.color = "white";
+    box.style.padding = "12px 16px";
+    box.style.borderRadius = "8px";
+    box.style.zIndex = "9999";
+
+    document.body.appendChild(box);
+
+    setTimeout(() => {
+      box.remove();
+    }, 2000);
+  }
+</script>
+{% endblock %}
