@@ -41,6 +41,7 @@ def index():
     for animal in animals:
         featured_animal_list.append(animal)
 
+    # No title attribute is intentional, so that this uses the default title
     return render_template('index.html', animals=featured_animal_list), 200
 
 @app1.route('/adopt')
@@ -65,7 +66,7 @@ def adopt():
         .dicts()
     )
 
-    return render_template('adopt.html', animals=animals)
+    return render_template('adopt.html', title="Adopt", animals=animals)
 
 @app1.route('/gallery')
 def gallery():
@@ -95,7 +96,7 @@ def gallery():
     for animal in animals:
         featured_animal_list.append(animal)
 
-    return render_template('gallery.html', animals=featured_animal_list), 200
+    return render_template('gallery.html', title="Gallery", animals=featured_animal_list), 200
 
 
 @app1.route('/add_pet', methods=['GET', 'POST'])
@@ -135,7 +136,7 @@ def add_pet():
         flash(f"Pet successfully added")
         return redirect(url_for('home.add_pet')), 302
     else:
-        return render_template('add_pet.html'), 200
+        return render_template('add_pet.html', title="Register a Pet"), 200
 
 @app1.route('/user_info')
 def view_users():
@@ -220,7 +221,7 @@ def form():
             "message": "Message Sent !"
         }), 200
 
-    return render_template('form.html')
+    return render_template('form.html', title="Adoption Form")
 
 @app1.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -233,4 +234,4 @@ def contact():
 
         return jsonify({"status": "success", "message": "Message Sent !"})
 
-    return render_template('contact.html')
+    return render_template('contact.html', title="Contact Us")
