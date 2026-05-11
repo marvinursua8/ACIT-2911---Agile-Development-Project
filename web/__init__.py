@@ -1,19 +1,25 @@
 from flask import Flask
-from pathlib import Path
+from flask_login import LoginManager, login_user, logout_user, login_required
+from playhouse.db_url import connect 
 from .database import db
-from .models import User
-from . import config
+from .models import User, Animal, Image, Admin
+from .config import Config, DATABASE_PATH
+
+DATABASE_URL="postgresql://postgres.xrygojfhrciovwsakyxk:apples7894561230qweA!@aws-1-us-east-1.pooler.supabase.com:6543/postgres"
 
 def create_app():
-
     app = Flask(__name__)
-
+    app.config.from_object(Config)
     from .api.routes import app1
+    login = LoginManager(app)
 
-    db_path = Path(config.DATABASE_PATH)
-    db_path.parent.mkdir(exist_ok=True)
+    @login.user_loader
+    def load_user(admin_id):
+        return Admin.get_or_none(Admin.id == admin_id)
 
-    db.init(str(db_path))
+    supabase_db = connect(DATABASE_URL)
+    db.initialize(supabase_db)
+    # ---------------------------------
 
     @app.before_request
     def before_request():
@@ -24,13 +30,9 @@ def create_app():
         if not db.is_closed():
             db.close()
 
-
     app.register_blueprint(app1)
-    # print(app.url_map)
 
     with db:
-        db.create_tables([User], safe=True)
+        db.create_tables([User, Animal, Image, Admin], safe=True)
 
     return app
-
-

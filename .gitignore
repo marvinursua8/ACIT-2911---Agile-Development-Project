@@ -5,6 +5,7 @@
 *.db
 instance/shelter.db
 
-# Ignore Python cache files (good practice)
+# Ignore Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
