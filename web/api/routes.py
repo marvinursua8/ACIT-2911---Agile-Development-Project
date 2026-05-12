@@ -116,8 +116,8 @@ def pet_detail(pet_id):
         return redirect(url_for('home.gallery'))
     
     primary_image = Image.get_or_none(Image.animal == animal, Image.is_primary == True)
-    
-    return render_template('pet_detail.html', title=animal.name, animal=animal, primary_image=primary_image)
+    secondary_images = Image.select().where(Image.animal == animal, Image.is_primary == False)
+    return render_template('pet_detail.html', title=animal.name, animal=animal, primary_image=primary_image, secondary_images=secondary_images)
 
 
 @app1.route('/add_pet', methods=['GET', 'POST'])

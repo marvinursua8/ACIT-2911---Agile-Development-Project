@@ -37,7 +37,7 @@ h2 {
 .nav-links a {
   margin-left: 20px;
   text-decoration: none;
-  color: white;
+  color: red;
   font-size: 1.8rem;
   transition: color 0.3s;
 }
@@ -230,10 +230,26 @@ footer {
 
 /* Pet Details Pages Layout */
 
+
+.centerpiece-image-container {
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .detail-page-image {
   max-width: 100%; 
   height: auto; 
-  border-radius: 8px;
+  border-radius: 5%;
+  object-fit: contain;
+}
+
+.secondary-images-container {
+    height: 100px;
+    display: flex;
+    gap: 5px;
+    padding: 10px;
 }
 
 /* RESPONSIVE: Mobile Width (Phone) */
