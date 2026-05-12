@@ -390,6 +390,6 @@ form label {
     font-size: 2rem;
 }
 
-body {
+.admin-dashboard-page {
     margin-left: 200px;
 }
