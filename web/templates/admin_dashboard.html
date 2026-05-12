@@ -33,7 +33,7 @@
     </div>
 
     <!-- Default Dashboard content  -->
-    <div class="dashboard-home content visible">
+    <div class="dashboard-home content">
       <p>
         for owners that want to adopt, we see their description of the dog they
         want to accept, and we as an admin can press a button to accept or deny
@@ -151,6 +151,29 @@
         // show application section
         document.querySelector(".application").classList.add("visible");
       });
+    </script>
+
+    <script>
+      // Auto-open section after redirect
+      const params = new URLSearchParams(window.location.search);
+
+      const section = params.get("section");
+
+      if (section === "add-pet") {
+        // hide everything
+        document
+          .querySelectorAll(".content")
+          .forEach((c) => c.classList.remove("visible"));
+
+          // reopen add pet section
+        document
+          .querySelector(".add-pet")
+          .classList.add("visible")
+      } else if (section === "application") {
+        document.querySelector(".application").classList.add("visible");
+      } else {
+        document.querySelector(".dashboard-home").classList.add("visible");
+      }
     </script>
   </body>
 </html>
