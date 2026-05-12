@@ -31,7 +31,6 @@ class Animal(Model):
         table_name = "animals"
 
     id = AutoField()
-    owner = ForeignKeyField(User, backref="animals")
     name = CharField(max_length=20)
     species = CharField(max_length=20)
     breed = CharField(max_length=20)
