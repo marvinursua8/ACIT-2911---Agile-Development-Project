@@ -370,3 +370,26 @@ form label {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+/* Prevents dashboard content from being hidden behind sidenav */
+.sidenav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 180px;
+    height: 100vh;
+    background: black;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    display: block;
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 2rem;
+}
+
+body {
+    margin-left: 200px;
+}
