@@ -2,7 +2,6 @@ import pytest
 from web import create_app
 from web.models import Animal, Image
 from web.database import db
-from uuid import uuid4
 
 TEST_USER_ID = 3 # Jane Doe
 
@@ -17,6 +16,7 @@ ANIMAL_DATA = {
     "color": "Yellow",
     "house_trained": "House trained",
     "description": "Woof woof",
+    "adopted": "False"
 }
 
 TEST_IMAGE_URL = "www.example.com/test.jpg"
@@ -36,6 +36,7 @@ def add_pet():
     with db.atomic():
         pet = Animal.create(**ANIMAL_DATA)
         Image.create(animal=pet, url=TEST_IMAGE_URL, is_primary=True)
+        Image.create(animal=pet, url=TEST_NON_PRIMARY_IMAGE_URL, is_primary=False)
 
     yield pet
 

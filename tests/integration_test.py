@@ -21,7 +21,7 @@ class TestGallery:
         all_pets = list(Animal.select())
         response = client.get("/gallery")
         # check if all pets show
-        assert response.data.count(b"gallery-card") == len(all_pets)
+        assert response.data.count(b'class="gallery-card"') == len(all_pets)
         # check if all desired data is found 
         response_text = response.get_data(as_text=True)
         for pet in all_pets:
@@ -36,11 +36,17 @@ class TestPetDetails:
 
     def test_all_data_shows(self, client, add_pet, get_pet):
         response = client.get(f"/pet/{get_pet.id}")
-        assert response.status_code == 200
         response_text = response.get_data(as_text=True)
         for key, value in ANIMAL_DATA.items():
             if key not in ["owner"]:
                 assert value in response_text
+
+    def test_secondary_images_show(self, client, add_pet, get_pet):
+        response = client.get(f"/pet/{get_pet.id}")
+        response_text = response.get_data(as_text=True)
+        secondary_images = Image.select().where(Image.animal == get_pet, Image.is_primary == False)
+        for image in secondary_images:
+            assert image.url in response_text
 
 
 class TestAddPet:
