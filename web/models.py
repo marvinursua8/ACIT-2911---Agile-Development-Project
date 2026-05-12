@@ -1,4 +1,4 @@
-from peewee import Model, AutoField, CharField, ForeignKeyField, IntegerField, BooleanField, Check, TextField
+from peewee import Model, AutoField, CharField, ForeignKeyField, IntegerField, BooleanField, Check
 import datetime
 from .database import db
 from flask_login import UserMixin
@@ -29,6 +29,7 @@ class Animal(Model):
     class Meta:
         database = db
         table_name = "animals"
+
     id = AutoField()
     name = CharField(max_length=20)
     species = CharField(max_length=20)
@@ -91,7 +92,4 @@ class Admin(UserMixin, Model):
     class Meta:
         database = db
         table_name = "admin"
-
-
-
 
