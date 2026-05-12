@@ -39,11 +39,11 @@ def add_pet():
         Image.create(animal=pet, url=TEST_NON_PRIMARY_IMAGE_URL, is_primary=False)
 
     yield pet
+    # cleanup
+    Image.delete().where(Image.animal_id == pet.id).execute()
+    Animal.delete().where(Animal.id == pet.id).execute()
 
 @pytest.fixture(scope="module")
 def get_pet(client):
     pet = Animal.get_or_none(Animal.name == ANIMAL_DATA["name"])
     yield pet
-    # cleanup
-    Image.delete().where(Image.animal_id == pet.id).execute()
-    Animal.delete().where(Animal.id == pet.id).execute()
