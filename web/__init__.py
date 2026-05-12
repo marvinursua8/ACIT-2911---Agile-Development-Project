@@ -12,10 +12,11 @@ def create_app():
     app.config.from_object(Config)
     from .api.routes import app1
     login = LoginManager(app)
+    login.login_view = 'home.login'
 
     @login.user_loader
     def load_user(admin_id):
-        return Admin.get_or_none(Admin.id == admin_id)
+        return Admin.get_or_none(Admin.id == int(admin_id))
 
     supabase_db = connect(DATABASE_URL)
     db.initialize(supabase_db)
