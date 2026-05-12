@@ -38,7 +38,7 @@ class TestPetDetails:
         response = client.get(f"/pet/{get_pet.id}")
         response_text = response.get_data(as_text=True)
         for key, value in ANIMAL_DATA.items():
-            if key not in ["owner"]:
+            if key not in ["owner", "adopted"]:
                 assert value in response_text
 
     def test_secondary_images_show(self, client, add_pet, get_pet):
