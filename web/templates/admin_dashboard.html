@@ -8,9 +8,172 @@
       href="{{ url_for('static', filename='styles/styles.css') }}"
       rel="stylesheet"
     />
+
+    <style>
+      /* Hide content (add pet and application pages) by default */
+      .content {
+        display: none;
+      }
+
+      /* Content is viewable */
+      .content.visible {
+        display: block;
+      }
+    </style>
   </head>
   <body>
-    <p>TEST</p>
-    <a href="{{ url_for('home.logout')  }}">Logout</a>
+    <h1>Admin dashboard</h1>
+
+    <div class="sidenav">
+      <a href="#" id="addpet">Add Pet</a>
+
+      <a href="#" id="applications">Adoption checklist</a>
+
+      <a href="{{ url_for('home.logout')  }}">Logout</a>
+    </div>
+
+    <!-- Default Dashboard content  -->
+    <div class="dashboard-home content">
+      <p>
+        for owners that want to adopt, we see their description of the dog they
+        want to accept, and we as an admin can press a button to accept or deny
+        it.
+      </p>
+    </div>
+
+    <!-- Add pet section -->
+    <div class="content add-pet">
+      <!-- Title -->
+      <section class="content-section">
+        <h1>Add a pet</h1>
+        <p>Helpful text Helpful text Helpful text</p>
+      </section>
+
+      <hr class="divider" />
+
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul>
+        {%for message in messages%}
+        <li>{{message}}</li>
+        {%endfor%}
+      </ul>
+
+      <hr class="divider" />
+      {%endif%} {%endwith%}
+
+      <!-- Form -->
+      <section class="content-section">
+        <div class="form-card">
+          <!-- for (Flask/Supabase） -->
+          <form
+            method="POST"
+            autocomplete="off"
+            action="{{ url_for('home.add_pet') }}"
+          >
+            <label>Name</label>
+            <input type="text" name="name" required />
+
+            <label>Species</label>
+            <input type="text" name="species" required />
+
+            <label>Breed</label>
+            <input type="text" name="breed" required />
+
+            <label>Gender</label>
+            <select name="gender" required>
+              <option value="">Select one</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+
+            <label>Age</label>
+            <input type="number" name="age" step="1" required />
+
+            <label>Size</label>
+            <select name="size" required>
+              <option value="">Select one</option>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+
+            <label>Color</label>
+            <input type="text" name="color" required />
+
+            <label>Are they house trained?</label>
+            <select name="house_trained" required>
+              <option value="">Select one</option>
+              <option value="House trained">Yes</option>
+              <option value="Not house trained">No</option>
+            </select>
+
+            <label>Description</label>
+            <textarea name="description" rows="5" required></textarea>
+
+            <label>Image URL</label>
+            <input type="text" name="url" required />
+
+            <button type="submit" class="btn">Submit</button>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <!-- Application section (Pet adoption requests) -->
+    <div class="content application">
+      <h2>Applications</h2>
+      <p>Adoption requests will appear here</p>
+    </div>
+
+    <script>
+      // Add pet button
+      document.querySelector("#addpet").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // hide everything
+        document
+          .querySelectorAll(".content")
+          .forEach((c) => c.classList.remove("visible"));
+
+        // show add pet section
+        document.querySelector(".add-pet").classList.add("visible");
+      });
+
+      // Application button
+      document.querySelector("#applications").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // hide everything
+        document
+          .querySelectorAll(".content")
+          .forEach((c) => c.classList.remove("visible"));
+
+        // show application section
+        document.querySelector(".application").classList.add("visible");
+      });
+    </script>
+
+    <script>
+      // Auto-open section after redirect
+      const params = new URLSearchParams(window.location.search);
+
+      const section = params.get("section");
+
+      if (section === "add-pet") {
+        // hide everything
+        document
+          .querySelectorAll(".content")
+          .forEach((c) => c.classList.remove("visible"));
+
+          // reopen add pet section
+        document
+          .querySelector(".add-pet")
+          .classList.add("visible")
+      } else if (section === "application") {
+        document.querySelector(".application").classList.add("visible");
+      } else {
+        document.querySelector(".dashboard-home").classList.add("visible");
+      }
+    </script>
   </body>
 </html>
