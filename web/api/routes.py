@@ -3,7 +3,7 @@ from flask import current_app, render_template, Blueprint, jsonify, flash, url_f
 
 from peewee import JOIN, fn
 
-from .. models import User, Animal, Image, Admin
+from .. models import User, Animal, Image, Admin, Contact
 from flask_login import current_user, login_user, logout_user
 from .. forms import LoginForm
 from .. config import Config
@@ -206,21 +206,32 @@ def form():
         name = request.form.get('name')
         email = request.form.get('email')
         phone = request.form.get('phone')
-        reason = request.form.get('reason')
+        animal = request.form.get('animal')
         message = request.form.get('message')
 
-        if not name or not email or not phone or not reason or not message:
+        # validation
+        if not all([name, email, phone, animal, message]):
             return jsonify({
                 "status": "error",
                 "message": "All fields are required"
             }), 400
 
+        # SAVE TO DATABASE 
+        Contact.create(
+            name=name,
+            email=email,
+            phone=phone,
+            animal=animal,
+            message=message,
+            approved=False   #  pending
+        )
+
         return jsonify({
             "status": "success",
-            "message": "Message Sent !"
+            "message": "Form submitted successfully"
         }), 200
 
-    return render_template('form.html')
+    return render_template("form.html")
 
 @app1.route('/contact', methods=['GET', 'POST'])
 def contact():
