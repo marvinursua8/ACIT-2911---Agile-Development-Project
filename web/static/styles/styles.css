@@ -16,6 +16,16 @@ h1 {
 h2 {
   font-size: 3rem;
   color: #458b74;
+  margin: 10px 0;
+}
+
+.editable-content {
+  max-width: 800px;
+  margin:0 auto;
+  padding: 20px;
+  font-size: 2rem;
+  font-weight: bolder;
+  color: black;
 }
 
 /* Navbar */
@@ -31,18 +41,20 @@ h2 {
   font-size: 2.5rem;
   font-weight: bold;
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 .nav-links a {
+  font-weight:bolder;
   margin-left: 20px;
   text-decoration: none;
-  color: white;
+  color: black;
   font-size: 1.8rem;
   transition: color 0.3s;
 }
 
 .nav-links a:hover {
+  font-weight: bolder;
   color: #20b2aa;
 }
 
@@ -131,7 +143,7 @@ footer {
   position: relative;
   height: 400px;
   flex-wrap: wrap;
-  flex: 1 1 calc(33.33%); /* 4 cards wide on desktop */
+  flex: 0 0 calc(33.33%); /* 4 cards wide on desktop */
   display: flex;
   border-radius: 20px;
   overflow: hidden;
@@ -161,6 +173,7 @@ footer {
 
 .name-overlay h2 {
   color: white; /* Name in white to keep theme */
+  font-weight: bolder;
   margin: 0;
   font-size: 2.5rem;
 }
