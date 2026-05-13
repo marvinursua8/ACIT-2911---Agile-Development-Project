@@ -1,4 +1,4 @@
-from peewee import Model, AutoField, CharField, ForeignKeyField, IntegerField, BooleanField, Check
+from peewee import Model, AutoField, CharField, ForeignKeyField, IntegerField, BooleanField, TextField, Check
 import datetime
 from .database import db
 from flask_login import UserMixin
@@ -63,7 +63,7 @@ class Image(Model):
         table_name = "images"
 
     id = AutoField()
-    url = CharField()
+    url = TextField()
     animal = ForeignKeyField(Animal, backref="images")
     is_primary= BooleanField(default=False)
 
