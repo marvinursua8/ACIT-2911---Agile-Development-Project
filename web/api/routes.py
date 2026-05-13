@@ -1,9 +1,8 @@
 from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect,request
 
-
 from peewee import JOIN, fn
 
-from .. models import User, Animal, Image, Admin
+from .. models import User, Animal, Image, Admin, Contact
 from flask_login import current_user, login_user, logout_user, login_required
 from .. forms import LoginForm
 from .. config import Config
@@ -239,8 +238,6 @@ def logout():
     logout_user()
     return redirect(url_for('home.index'))
 
-
-
 @app1.route('/Forms', methods=['GET', 'POST'])
 def form():
 
@@ -249,22 +246,35 @@ def form():
         name = request.form.get('name')
         email = request.form.get('email')
         phone = request.form.get('phone')
-        reason = request.form.get('reason')
+        animal = request.form.get('animal')
         message = request.form.get('message')
 
-        if not name or not email or not phone or not reason or not message:
-            return jsonify({
-                "status": "error",
-                "message": "All fields are required"
-            }), 400
+        # validation
+        if not all([name, email, phone, animal, message]):
+            flash("All fields are required")
+            return redirect(url_for('home.form'))
 
-        return jsonify({
-            "status": "success",
-            "message": "Message Sent !"
-        }), 200
+        # SAVE TO DATABASE
+        Contact.create(
+            name=name,
+            email=email,
+            phone=phone,
+            animal=animal,
+            message=message,
+            approved=False
+        )
 
+        flash("Form submitted successfully!")
+        return redirect(url_for('home.form'))
 
-    return render_template('form.html', title="Adoption Form", animal="animal_list")
+    # GET request
+    animals = Animal.select()
+
+    return render_template(
+        'form.html',
+        title="Adoption Form",
+        animals=animals
+    )
 
 @app1.route('/contact', methods=['GET', 'POST'])
 def contact():

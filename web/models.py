@@ -93,3 +93,16 @@ class Admin(UserMixin, Model):
         database = db
         table_name = "admin"
 
+class Contact(Model):
+    class Meta:
+        database = db
+        table_name = "contacts"
+
+    id = AutoField()
+    name = CharField()
+    email = CharField()
+    phone = CharField()
+    animal = CharField()
+    message = CharField()
+
+    approved = BooleanField(default=False)  # allow / deny
