@@ -238,8 +238,6 @@ def logout():
     logout_user()
     return redirect(url_for('home.index'))
 
-
-
 @app1.route('/Forms', methods=['GET', 'POST'])
 def form():
 
@@ -253,10 +251,8 @@ def form():
 
         # validation
         if not all([name, email, phone, animal, message]):
-            return jsonify({
-                "status": "error",
-                "message": "All fields are required"
-            }), 400
+            flash("All fields are required")
+            return redirect(url_for('home.form'))
 
         # SAVE TO DATABASE
         Contact.create(
@@ -268,10 +264,8 @@ def form():
             approved=False
         )
 
-        return jsonify({
-            "status": "success",
-            "message": "Form submitted successfully"
-        }), 200
+        flash("Form submitted successfully!")
+        return redirect(url_for('home.form'))
 
     # GET request
     animals = Animal.select()
