@@ -130,7 +130,8 @@ footer {
 .gallery-card {
   position: relative;
   height: 400px;
-  flex: 0 1 calc(25% - 20px); /* 4 cards wide on desktop */
+  flex-wrap: wrap;
+  flex: 1 1 calc(33.33%); /* 4 cards wide on desktop */
   display: flex;
   border-radius: 20px;
   overflow: hidden;
@@ -201,17 +202,13 @@ footer {
 .gallery-row {
   display: grid;
   /* Creates 4 columns, each taking up 1 fraction of free space */
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   /* Optional: Adds spacing between cards */
   gap: 20px;
 }
 /* HOVER EFFECT */
 .gallery-card:hover {
   flex: 0 1 calc(50% - 20px) !important;
-}
-
-.gallery-container:hover .gallery-card:not(:hover) {
-  flex: 0 1 calc(16.66% - 20px); /* Shrinks others to make room */
 }
 
 .gallery-card:hover .card-image {
