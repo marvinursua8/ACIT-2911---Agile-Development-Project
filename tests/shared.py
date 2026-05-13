@@ -47,3 +47,13 @@ def add_pet():
 def get_pet(client):
     pet = Animal.get_or_none(Animal.name == ANIMAL_DATA["name"])
     yield pet
+
+
+@pytest.fixture(scope="module")
+def cleanup():
+    yield
+    test_animals = list(Animal.select().where(Animal.name == ANIMAL_DATA["name"]))
+    if test_animals:
+        animal_ids = [animal.id for animal in test_animals]
+        Image.delete().where(Image.animal_id.in_(animal_ids)).execute()
+        Animal.delete().where(Animal.id.in_(animal_ids)).execute()
