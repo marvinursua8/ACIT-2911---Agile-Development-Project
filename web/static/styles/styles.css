@@ -231,12 +231,12 @@ footer {
 /* Pet Details Pages Layout */
 
 #centerpiece-image {
-  max-height: 600px;
+  max-height: 20em;
   border-radius: 20px;
 }
 
 .centerpiece-image-container {
-  height: 600px;
+  height: 20em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -254,6 +254,16 @@ footer {
   display: flex;
   gap: 5px;
   padding: 10px;
+}
+
+.thumbnail-image {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.thumbnail-image:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* RESPONSIVE: Mobile Width (Phone) */
