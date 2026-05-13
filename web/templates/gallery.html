@@ -1,63 +1,67 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gallery - Second-Look Pet Adoption</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='styles/styles.css') }}"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header class="navbar">
-      <div class="logo">
-        <a href="{{ url_for('home.index') }}">Second-Look Adoptions</a>
-      </div>
-      <nav class="nav-links">
-        <a href="{{ url_for('home.index') }}">Home</a>
-        <a href="{{ url_for('home.gallery') }}">Gallery</a>
-        <a href="{{ url_for('home.adopt') }}">Adopt</a>
-        <a href="{{ url_for('home.forms') }}">Forms</a>
-        <a href="{{ url_for('home.contact') }}">Contact</a>
-      </nav>
-    </header>
+{% extends 'base.html' %} {% block content %}
 
-    <main class="gallery-wrapper">
-      <h1 class="gallery-title">Our Furry Friends</h1>
+<main class="gallery-wrapper">
+  <h1 class="gallery-title">Our Furry Friends</h1>
 
-      <div class="gallery-container">
-        {% for animal in animals %}
-        <div class="gallery-card">
-          <div
-            class="card-image"
-            style="background-image: url('{{ animal.primary_image }}');"
-          >
-            <div class="name-overlay">
-              <h2>{{ animal.name }}</h2>
-            </div>
-          </div>
+  <!-- FILTER -->
+  <div class="filter-controls" style="margin-bottom: 20px">
+    <label for="animal-filter">Filter by Animal:</label>
+    <select id="animal-filter">
+      <option value="all">All Animals</option>
+      {% for species in species_list %}
+      <option value="{{ species|lower }}">{{ species|title }}s</option>
+      {% endfor %}
+    </select>
+  </div>
 
-          <div class="card-details">
-            <div class="details-header">
-              <h3>{{ animal.name }}</h3>
-            </div>
-            <div class="details-body">
-              <p><strong>Breed:</strong> {{ animal.breed }}</p>
-              <p><strong>Gender:</strong> {{ animal.gender }}</p>
-            </div>
-          </div>
+  <!-- GALLERY -->
+  <div class="gallery-container">
+    {% for animal in animals %}
+    <div class="gallery-card" data-species="{{ animal.species|lower }}">
+      <div
+        class="card-image"
+        style="background-image: url('{{ animal.primary_image }}');"
+      >
+        <div class="name-overlay">
+          <h2>{{ animal.name }}</h2>
         </div>
-        {% endfor %}
       </div>
-    </main>
 
-    <footer>
-      <p>&copy; 2026 Second-Look Pet Adoption</p>
-    </footer>
-  </body>
-</html>
+      <div class="card-details">
+        <div class="details-header">
+          <h3>{{ animal.name }}</h3>
+        </div>
+        <div class="details-body">
+          <p><strong>Breed:</strong> {{ animal.breed }}</p>
+          <p><strong>Gender:</strong> {{ animal.gender }}</p>
+        </div>
+      </div>
+
+      <a class="inter-page-link" href="/pet/{{ animal.id }}"></a>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const filterSelect = document.getElementById("animal-filter");
+    const cards = document.querySelectorAll(".gallery-card");
+
+    filterSelect.addEventListener("change", function () {
+      const selectedAnimal = this.value.toLowerCase();
+
+      cards.forEach((card) => {
+        const cardSpecies = card.getAttribute("data-species");
+
+        if (selectedAnimal === "all" || cardSpecies === selectedAnimal) {
+          card.style.display = "";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

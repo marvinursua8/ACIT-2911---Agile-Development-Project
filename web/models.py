@@ -31,7 +31,6 @@ class Animal(Model):
         table_name = "animals"
 
     id = AutoField()
-    owner = ForeignKeyField(User, backref="animals")
     name = CharField(max_length=20)
     species = CharField(max_length=20)
     breed = CharField(max_length=20)
@@ -41,6 +40,7 @@ class Animal(Model):
     color = CharField(max_length=20)
     house_trained = CharField(constraints=[Check("house_trained IN ('House trained', 'Not house trained')")])
     description = CharField()
+    adopted = BooleanField(default=False)
 
     def to_dict(self):
         return {
@@ -53,7 +53,8 @@ class Animal(Model):
             "size": self.size,
             "color": self.color,
             "house_trained": self.house_trained,
-            "description": self.description
+            "description": self.description,
+            "adopted": self.adopted
         }
     
 class Image(Model):

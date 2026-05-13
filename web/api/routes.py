@@ -1,16 +1,14 @@
 from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect,request
 
-
 from peewee import JOIN, fn
 
 from .. models import User, Animal, Image, Admin, Contact
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from .. forms import LoginForm
 from .. config import Config
 from .. database import db
 
 app1 = Blueprint("home", __name__)
-# app1.config['SECRET_KEY'] = 'some-super-secret-string-here'
 
 @app1.route('/')
 def index():
@@ -41,6 +39,7 @@ def index():
     for animal in animals:
         featured_animal_list.append(animal)
 
+    # No title attribute is intentional, so that this uses the default title
     return render_template('index.html', animals=featured_animal_list), 200
 
 @app1.route('/adopt')
@@ -65,7 +64,7 @@ def adopt():
         .dicts()
     )
 
-    return render_template('adopt.html', animals=animals)
+    return render_template('adopt.html', title="Adopt", animals=animals)
 
 @app1.route('/gallery')
 def gallery():
@@ -76,6 +75,7 @@ def gallery():
             Animal.name,
             Animal.breed,
             Animal.gender,
+            Animal.species,
             Image.url.alias("primary_image")
         )
         .join(
@@ -89,13 +89,34 @@ def gallery():
         .order_by(Animal.id.desc())
         .dicts()
     )
+
+
+
+    animal_species = Animal.select(Animal.species).distinct()
+    species_list = []
+    
+  
+    for animal in animal_species:
+        species_list.append(animal.species)
     
     featured_animal_list = []
 
     for animal in animals:
         featured_animal_list.append(animal)
 
-    return render_template('gallery.html', animals=featured_animal_list), 200
+    return render_template('gallery.html', title="Gallery", animals=featured_animal_list, species_list=species_list), 200
+
+
+@app1.route('/pet/<int:pet_id>')
+def pet_detail(pet_id):
+    animal = Animal.get_or_none(Animal.id == pet_id)
+    if not animal:
+        flash("Pet not found")
+        return redirect(url_for('home.gallery'))
+    
+    primary_image = Image.get_or_none(Image.animal == animal, Image.is_primary == True)
+    
+    return render_template('pet_detail.html', title=animal.name, animal=animal, primary_image=primary_image)
 
 
 @app1.route('/add_pet', methods=['GET', 'POST'])
@@ -104,16 +125,15 @@ def add_pet():
         default_user = User.get_or_none()  # This will fail if no users exist; replace with proper user selection
         if not default_user:
             flash("No users available to assign as owner.")
-            return redirect('add_pet')
+            return redirect(url_for('home.admin_dashboard', section='add-pet'))
         
         try:
             int(request.form.get("age"))
         except ValueError:
             flash("Age must be a number")
-            return redirect('add_pet')
-        with db.atomic() as _:
+            return redirect(url_for('home.admin_dashboard', section='add-pet'))
+        with db.atomic():
             pet = Animal(
-                owner=default_user,
                 name=request.form.get("name"),
                 species=request.form.get("species"),
                 breed=request.form.get("breed"),
@@ -133,9 +153,9 @@ def add_pet():
             image.save()
         
         flash(f"Pet successfully added")
-        return render_template('add_pet.html'), 201
+        return redirect(url_for('home.admin_dashboard', section='add-pet')), 302
     else:
-        return render_template('add_pet.html'), 200
+        return render_template('add_pet.html', title="Register a Pet"), 200
 
 @app1.route('/user_info')
 def view_users():
@@ -168,6 +188,26 @@ def view_images():
 
     return jsonify(image_list), 200
 
+@app1.route('/adoptions', methods=['GET', 'POST'])
+def adoptions():
+    if request.method == 'POST':
+        action = request.form.get('action')
+        animal_id = request.form.get('animal_id')
+
+        if action == 'Allow':
+            animal_to_update = Animal.get_by_id(animal_id)
+            animal_to_update.adopted = True
+
+            animal_to_update.save()
+        elif action == 'Deny':
+            pass
+        return redirect(url_for('home.adoptions'))
+    users_test = User.select()
+    users_test_list = []
+    for user in users_test:
+        users_test_list.append(user.to_dict())
+
+    return render_template('adoptions.html', users=users_test_list)
 
 @app1.route('/login', methods=['GET', 'POST'])
 def login():
@@ -189,6 +229,7 @@ def login():
     return render_template('adminlogin.html', title='Sign In', form=form)
 
 @app1.route('/admin_dashboard')
+@login_required
 def admin_dashboard():
     return render_template('admin_dashboard.html')
 
@@ -196,6 +237,7 @@ def admin_dashboard():
 def logout():
     logout_user()
     return redirect(url_for('home.index'))
+
 
 
 @app1.route('/Forms', methods=['GET', 'POST'])
@@ -216,14 +258,14 @@ def form():
                 "message": "All fields are required"
             }), 400
 
-        # SAVE TO DATABASE 
+        # SAVE TO DATABASE
         Contact.create(
             name=name,
             email=email,
             phone=phone,
             animal=animal,
             message=message,
-            approved=False   #  pending
+            approved=False
         )
 
         return jsonify({
@@ -231,7 +273,14 @@ def form():
             "message": "Form submitted successfully"
         }), 200
 
-    return render_template("form.html")
+    # GET request
+    animals = Animal.select()
+
+    return render_template(
+        'form.html',
+        title="Adoption Form",
+        animals=animals
+    )
 
 @app1.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -244,4 +293,4 @@ def contact():
 
         return jsonify({"status": "success", "message": "Message Sent !"})
 
-    return render_template('contact.html')
+    return render_template('contact.html', title="Contact Us")

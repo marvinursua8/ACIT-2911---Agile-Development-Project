@@ -1,83 +1,44 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pet Adoption Form - Second-Look Adoption</title>
+{% extends 'base.html' %} {% block content %}
 
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+<main class="form-page">
+  <!-- TITLE -->
+  <section class="content-section">
+    <h1>{{ title }}</h1>
+    <p>Please fill out the form to apply for adoption 🐾</p>
+  </section>
 
-    <!-- Main CSS -->
-    <link
-      href="{{ url_for('static', filename='styles/styles.css') }}"
-      rel="stylesheet"
-    />
-  </head>
+  <hr class="divider" />
 
-  <body>
-    <!-- NAVBAR -->
-    <header class="navbar">
-      <div class="logo">
-        <a href="{{ url_for('home.index') }}">Second-Look Adoptions</a>
-      </div>
+  <!-- FORM -->
+  <section class="content-section">
+    <div class="form-card">
+      <form method="POST" action="/Forms" autocomplete="off">
+        <label>Name</label>
+        <input type="text" name="name" required />
 
-      <nav class="nav-links">
-        <a href="{{ url_for('home.index') }}">Home</a>
-        <a href="{{ url_for('home.gallery') }}">Gallery</a>
-        <a href="{{ url_for('home.adopt') }}">Adopt</a>
-        <a href="{{ url_for('home.form') }}" class="active">Forms</a>
-        <a href="{{ url_for('home.contact') }}">Contact</a>
-      </nav>
-    </header>
+        <label>Email</label>
+        <input type="email" name="email" required />
 
-    <!-- MAIN -->
-    <main>
-      <section class="content-section">
-        <h1>Pet Adoption Form</h1>
-        <p>Please fill out the form to apply for adoption 🐾</p>
-      </section>
+        <label>Phone</label>
+        <input type="tel" name="phone" />
 
-      <hr class="divider" />
+        <!-- Animal dropdown from backend -->
+        <label>Choose a Pet to Adopt</label>
+        <select name="animal" required>
+          <option value="">Select a pet</option>
 
-      <!-- FORM -->
-      <section class="content-section">
-        <div class="form-card">
-          <form method="POST" action="/Forms">
-            <label>Name</label>
-            <input type="text" name="name" required />
+          {% for animal in animals %}
+          <option value="{{ animal.id }}">{{ animal.name }}</option>
+          {% endfor %}
+        </select>
 
-            <label>Email</label>
-            <input type="email" name="email" required />
+        <label>Message</label>
+        <textarea name="message" rows="5" required></textarea>
 
-            <label>Phone</label>
-            <input type="tel" name="phone" required />
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </div>
+  </section>
+</main>
 
-            <!-- NEW: adopt animal instead of reason -->
-            <label>Choose a Pet to Adopt</label>
-            <select name="animal" required>
-              <option value="">Select a pet</option>
-              <option value="dog">Dog</option>
-              <option value="cat">Cat</option>
-              <option value="rabbit">Rabbit</option>
-              <option value="bird">Bird</option>
-            </select>
-
-            <label>Message</label>
-            <textarea name="message" rows="5" required></textarea>
-
-            <button type="submit" class="btn">Submit</button>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-      <p>&copy; 2026 Second-Look Pet Adoption</p>
-    </footer>
-  </body>
-</html>
+{% endblock %}
