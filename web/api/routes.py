@@ -4,7 +4,7 @@ from flask import current_app, render_template, Blueprint, jsonify, flash, url_f
 from peewee import JOIN, fn
 
 from .. models import User, Animal, Image, Admin
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from .. forms import LoginForm
 from .. config import Config
 from .. database import db
@@ -230,6 +230,7 @@ def login():
     return render_template('adminlogin.html', title='Sign In', form=form)
 
 @app1.route('/admin_dashboard')
+@login_required
 def admin_dashboard():
     return render_template('admin_dashboard.html')
 
