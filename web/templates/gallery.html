@@ -3,7 +3,7 @@
 {% block content %}
 <main class="gallery-wrapper">
     <h1 class="gallery-title">Our Furry Friends</h1>
-
+    
     <div class="filter-controls" style="margin-bottom: 20px;">
         <label for="animal-filter">Filter by Animal:</label>
         <select id="animal-filter">
@@ -13,7 +13,8 @@
             {% endfor %}
         </select>
     </div>
-    <div class="gallery-container">
+    <div class="gallery-row">
+    
         {% for animal in animals %}
         <div class="gallery-card" data-species="{{ animal.species|lower }}">
             
@@ -38,6 +39,7 @@
         </div>
         {% endfor %}
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Grab the dropdown menu and all the animal cards

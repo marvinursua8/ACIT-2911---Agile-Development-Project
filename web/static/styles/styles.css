@@ -198,7 +198,13 @@ footer {
   text-align: left;
   font-size: 1.4rem;
 }
-
+.gallery-row {
+  display: grid;
+  /* Creates 4 columns, each taking up 1 fraction of free space */
+  grid-template-columns: repeat(4, 1fr);
+  /* Optional: Adds spacing between cards */
+  gap: 20px;
+}
 /* HOVER EFFECT */
 .gallery-card:hover {
   flex: 0 1 calc(50% - 20px) !important;
