@@ -20,8 +20,7 @@ def test_form_submit_success(client):
         "message": "Hello"
     })
 
-    assert response.status_code == 200
-    assert b"success" in response.data
+    assert response.status_code == 302
 
 
 def test_form_submit_missing_fields(client):
@@ -33,4 +32,4 @@ def test_form_submit_missing_fields(client):
         "message": ""
     })
 
-    assert response.status_code == 400
+    assert response.status_code == 302

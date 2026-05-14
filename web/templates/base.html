@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% if title %}
+    <title>{{title}} - Second-Look Pet Adoption</title>
+    {% else %}
+    <title>Second-Look Pet Adoption</title>
+    {% endif %}
+    <!-- Google Fonts: Amatic SC -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='styles/styles.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">
+        <a href="{{ url_for('home.index') }}">Second-Look Adoptions</a>
+      </div>
+      <nav class="nav-links">
+        <a
+          href="{{ url_for('home.index') }}"
+          class="{{ 'active' if request.endpoint == 'home.index' }}"
+          >Home</a
+        >
+        <a
+          href="{{ url_for('home.gallery') }}"
+          class="{{ 'active' if request.endpoint == 'home.gallery' }}"
+          >Gallery</a
+        >
+        <a
+          href="{{ url_for('home.adopt') }}"
+          class="{{ 'active' if request.endpoint == 'home.adopt' }}"
+          >Adopt</a
+        >
+        <a
+          href="{{ url_for('home.form') }}"
+          class="{{ 'active' if request.endpoint == 'home.form' }}"
+          >Forms</a
+        >
+        <a
+          href="{{ url_for('home.contact') }}"
+          class="{{ 'active' if request.endpoint == 'home.contact' }}"
+          >Contact</a
+        >
+      </nav>
+    </header>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="flash-message">
+      {% for message in messages %}
+      <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %} {% block content %} {% endblock %}
+    <footer>
+      <p>&copy; 2026 Second-Look Pet Adoption</p>
+    </footer>
+  </body>
+</html>

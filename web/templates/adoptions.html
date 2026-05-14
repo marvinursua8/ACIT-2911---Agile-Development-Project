@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+
+<main>
+    <body>
+            {% for contact in contacts %}
+                <div>
+                    <p>{{ contact.name }} wants to adopt  {{ contact.animal }}</p>
+                    <p>{{ contact.message }} </p>
+                    
+                    <form method="POST" action="/adoptions">
+                        <input type="hidden" name="contact_id" value="{{ contact.id }}">
+                        
+                        <button type="submit" name="action" value="allow">Allow</button>
+                        <button type="submit" name="action" value="deny">Deny</button>
+                    </form>
+                </div>
+            {% endfor %}
+    
+    </body>
+</main>
+
+{% endblock %}
