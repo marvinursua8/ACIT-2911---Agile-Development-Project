@@ -8,9 +8,19 @@
       href="{{ url_for('static', filename='styles/styles.css') }}"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
-      /* Hide content (add pet and application pages) by default */
+      .main-wrapper {
+        margin-left: 200px; /* Ensure this is larger than your sidebar width */
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      /* Hide tabs by default */
       .content {
         display: none;
       }
@@ -22,108 +32,125 @@
     </style>
   </head>
   <body>
-    <h1>Admin dashboard</h1>
-
+    <!-- 1. SIDEBAR STAYS ON THE LEFT -->
     <div class="sidenav">
       <a href="#" id="addpet">Add Pet</a>
-
       <a href="#" id="applications">Adoption checklist</a>
-
       <a href="{{ url_for('home.logout')  }}">Logout</a>
     </div>
-
-    <!-- Default Dashboard content  -->
-    <div class="dashboard-home content">
-      <p>
-        for owners that want to adopt, we see their description of the dog they
-        want to accept, and we as an admin can press a button to accept or deny
-        it.
-      </p>
-    </div>
-
-    <!-- Add pet section -->
-    <div class="content add-pet">
-      <!-- Title -->
-      <section class="content-section">
-        <h1>Add a pet</h1>
-        <p>Helpful text Helpful text Helpful text</p>
-      </section>
-
+    
+    <div class="main-wrapper">
+      
+      <h1>Admin dashboard</h1>
       <hr class="divider" />
 
-      {% with messages = get_flashed_messages() %} {% if messages %}
-      <ul>
-        {%for message in messages%}
-        <li>{{message}}</li>
-        {%endfor%}
-      </ul>
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages() %} 
+        {% if messages %}
+          <ul style="list-style: none; padding: 0;">
+            {% for message in messages %}
+              <li style="color: green; font-size: 1.5rem; font-weight: bold;">{{ message }}</li>
+            {% endfor %}
+          </ul>
+          <hr class="divider" />
+        {% endif %} 
+      {% endwith %}
+      
+      <div class="dashboard-home content visible">
+        <p>
+          for owners that want to adopt, we see their description of the dog they
+          want to accept, and we as an admin can press a button to accept or deny
+          it.
+        </p>
+      </div>
 
-      <hr class="divider" />
-      {%endif%} {%endwith%}
+      <!-- Add pet section -->
+      <div class="content add-pet">
+        <section class="content-section">
+          <h2>Add a pet</h2>
+          <p>Helpful text Helpful text Helpful text</p>
+        </section>
 
-      <!-- Form -->
-      <section class="content-section">
-        <div class="form-card">
-          <!-- for (Flask/Supabase） -->
-          <form
-            method="POST"
-            autocomplete="off"
-            action="{{ url_for('home.add_pet') }}"
-          >
-            <label>Name</label>
-            <input type="text" name="name" required />
+        <!-- Form -->
+        <section class="content-section">
+          <div class="form-card">
+            <form
+              method="POST"
+              autocomplete="off"
+              action="{{ url_for('home.add_pet') }}"
+            >
+              <label>Name</label>
+              <input type="text" name="name" required />
 
-            <label>Species</label>
-            <input type="text" name="species" required />
+              <label>Species</label>
+              <input type="text" name="species" required />
 
-            <label>Breed</label>
-            <input type="text" name="breed" required />
+              <label>Breed</label>
+              <input type="text" name="breed" required />
 
-            <label>Gender</label>
-            <select name="gender" required>
-              <option value="">Select one</option>
-              <option value="female">Female</option>
-              <option value="male">Male</option>
-            </select>
+              <label>Gender</label>
+              <select name="gender" required>
+                <option value="">Select one</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+              </select>
 
-            <label>Age</label>
-            <input type="number" name="age" step="1" required />
+              <label>Age</label>
+              <input type="number" name="age" step="1" required />
 
-            <label>Size</label>
-            <select name="size" required>
-              <option value="">Select one</option>
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-              <option value="large">Large</option>
-            </select>
+              <label>Size</label>
+              <select name="size" required>
+                <option value="">Select one</option>
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
 
-            <label>Color</label>
-            <input type="text" name="color" required />
+              <label>Color</label>
+              <input type="text" name="color" required />
 
-            <label>Are they house trained?</label>
-            <select name="house_trained" required>
-              <option value="">Select one</option>
-              <option value="House trained">Yes</option>
-              <option value="Not house trained">No</option>
-            </select>
+              <label>Are they house trained?</label>
+              <select name="house_trained" required>
+                <option value="">Select one</option>
+                <option value="House trained">Yes</option>
+                <option value="Not house trained">No</option>
+              </select>
 
-            <label>Description</label>
-            <textarea name="description" rows="5" required></textarea>
+              <label>Description</label>
+              <textarea name="description" rows="5" required></textarea>
 
-            <label>Image URL</label>
-            <input type="text" name="url" required />
+              <label>Image URL</label>
+              <input type="text" name="url" required />
 
-            <button type="submit" class="btn">Submit</button>
-          </form>
+              <button type="submit" class="btn">Submit</button>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <!-- Application section (Pet adoption requests) -->
+      <div class="content application">
+        <h2>Applications</h2>
+        
+        <div class="applications-container">
+          {% for contact in contacts %}
+            <div class="application-card">
+                <p><strong>{{ contact.name }}</strong> wants to adopt <strong>{{ contact.animal }}</strong></p>
+                <p>{{ contact.message }}</p>
+                
+                <form class="application-form" method="POST" action="{{ url_for('home.admin_dashboard') }}">
+                    <input type="hidden" name="contact_id" value="{{ contact.id }}">
+                    <button type="submit" name="action" value="allow">Allow</button>
+                    <button type="submit" name="action" value="deny">Deny</button>
+                </form>
+            </div> 
+          {% else %}
+            <p>Currently no applicants!</p>
+          {% endfor %}
         </div>
-      </section>
-    </div>
+      </div>
 
-    <!-- Application section (Pet adoption requests) -->
-    <div class="content application">
-      <h2>Applications</h2>
-      <p>Adoption requests will appear here</p>
-    </div>
+    </div> 
 
     <script>
       // Add pet button
@@ -156,7 +183,6 @@
     <script>
       // Auto-open section after redirect
       const params = new URLSearchParams(window.location.search);
-
       const section = params.get("section");
 
       if (section === "add-pet") {
@@ -168,12 +194,18 @@
           // reopen add pet section
         document
           .querySelector(".add-pet")
-          .classList.add("visible")
+          .classList.add("visible");
       } else if (section === "application") {
+        // hide everything
+        document
+          .querySelectorAll(".content")
+          .forEach((c) => c.classList.remove("visible"));
+
+        // reopen application section
         document.querySelector(".application").classList.add("visible");
-      } else {
-        document.querySelector(".dashboard-home").classList.add("visible");
       }
+      // Note: Removed the "else" block that forced the dashboard open, 
+      // as it was interfering with the "visible" class logic.
     </script>
   </body>
 </html>

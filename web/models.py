@@ -104,5 +104,15 @@ class Contact(Model):
     phone = CharField()
     animal = CharField()
     message = CharField()
-
     approved = BooleanField(default=False)  # allow / deny
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "phone": self.phone,
+            "animal": self.animal,
+            "message": self.message,
+            "approved": self.approved
+        }

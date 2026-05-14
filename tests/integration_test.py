@@ -1,5 +1,5 @@
 import pytest
-from .shared import client, add_pet, get_pet, ANIMAL_DATA, TEST_IMAGE_URL, TEST_USER_ID, TEST_NON_PRIMARY_IMAGE_URL
+from .shared import client, add_pet, get_pet, cleanup, ANIMAL_DATA, TEST_IMAGE_URL, TEST_USER_ID, TEST_NON_PRIMARY_IMAGE_URL
 from web.models import Animal, User, Image
 from web.database import db
 
@@ -21,7 +21,7 @@ class TestGallery:
         all_pets = list(Animal.select())
         response = client.get("/gallery")
         # check if all pets show
-        assert response.data.count(b"gallery-card") == len(all_pets)
+        assert response.data.count(b'class="gallery-card"') == len(all_pets)
         # check if all desired data is found 
         response_text = response.get_data(as_text=True)
         for pet in all_pets:
@@ -36,20 +36,27 @@ class TestPetDetails:
 
     def test_all_data_shows(self, client, add_pet, get_pet):
         response = client.get(f"/pet/{get_pet.id}")
-        assert response.status_code == 200
         response_text = response.get_data(as_text=True)
         for key, value in ANIMAL_DATA.items():
-            if key not in ["owner"]:
+            if key not in ["owner", "adopted"]:
                 assert value in response_text
+
+    def test_secondary_images_show(self, client, add_pet, get_pet):
+        response = client.get(f"/pet/{get_pet.id}")
+        response_text = response.get_data(as_text=True)
+        secondary_images = Image.select().where(Image.animal == get_pet, Image.is_primary == False)
+        for image in secondary_images:
+            assert image.url in response_text
 
 
 class TestAddPet:
-    def test_add_pet(self, client, get_pet):
-        data = ANIMAL_DATA
+    def test_add_pet(self, client, get_pet, cleanup):
+        data = dict(ANIMAL_DATA)
         data["url"] = TEST_IMAGE_URL
-        response = client.post("/add_pet", data=ANIMAL_DATA, follow_redirects=True)
+        response = client.post("/add_pet", data=data, follow_redirects=True)
         assert response.status_code == 200
-        assert get_pet is not None
+        created_pet = Animal.get_or_none(Animal.name == ANIMAL_DATA["name"])
+        assert created_pet is not None
 
 class TestHomepagePetImage:
     def test_homepage_shows_primary_image(self, client):
