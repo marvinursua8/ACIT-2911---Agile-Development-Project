@@ -192,22 +192,37 @@ def view_images():
 def adoptions():
     if request.method == 'POST':
         action = request.form.get('action')
-        animal_id = request.form.get('animal_id')
+        contact_id = request.form.get('contact_id') 
+        if action == 'allow' and contact_id:
+            try:
+                contact = Contact.get_by_id(contact_id)
+                
+                query_update = Animal.update(adopted=True).where(Animal.id == contact.animal)
+                query_update.execute()
+                query_delete = Contact.delete().where(Contact.id == contact_id) 
+                query_delete.execute()
+                flash(f'Applicant {contact} has been approved to adopt!')
 
-        if action == 'Allow':
-            animal_to_update = Animal.get_by_id(animal_id)
-            animal_to_update.adopted = True
+            except Contact.DoesNotExist:
+                print("Error: The contact request does not exist.")
 
-            animal_to_update.save()
-        elif action == 'Deny':
-            pass
-        return redirect(url_for('home.adoptions'))
-    users_test = User.select()
-    users_test_list = []
-    for user in users_test:
-        users_test_list.append(user.to_dict())
+        elif action == 'deny' and contact_id:
+            try:
+                query = Contact.delete().where(Contact.id == contact_id)
+                query.execute()
+                
+                print(f"Application {contact_id} was successfully denied and deleted.")
+                
+            except Exception as e:
+                print(f"Error deleting contact: {e}")
+            
+        return redirect(url_for('home.admin_dashboard', section='application'))
+    
+    contacts = Contact.select()
+    contacts_list = [contact.to_dict() for contact in contacts]
 
-    return render_template('adoptions.html', users=users_test_list)
+
+    return render_template('adoptions.html', contacts=contacts_list)
 
 @app1.route('/login', methods=['GET', 'POST'])
 def login():
@@ -228,10 +243,44 @@ def login():
     
     return render_template('adminlogin.html', title='Sign In', form=form)
 
-@app1.route('/admin_dashboard')
+@app1.route('/admin_dashboard', methods=['GET', 'POST'])
 @login_required
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    if request.method == 'POST':
+        action = request.form.get('action')
+        contact_id = request.form.get('contact_id') 
+        if action == 'allow' and contact_id:
+            try:
+                contact = Contact.get_by_id(contact_id)
+                
+                query_update = Animal.update(adopted=True).where(Animal.id == contact.animal)
+                query_update.execute()
+                query_delete = Contact.delete().where(Contact.id == contact_id) 
+                query_delete.execute()
+                flash(f'Applicant {contact.name} has been approved to adopt!')
+
+            except Contact.DoesNotExist:
+                print("Error: The contact request does not exist.")
+
+        elif action == 'deny' and contact_id:
+            try:
+                contact = Contact.get_by_id(contact_id)
+                query = Contact.delete().where(Contact.id == contact_id)
+                query.execute()
+                flash(f'Applicant {contact.name} has been denied.')
+                print(f"Application {contact_id} was successfully denied and deleted.")
+                
+            except Exception as e:
+                print(f"Error deleting contact: {e}")
+            
+        return redirect(url_for('home.admin_dashboard', section='application'))
+    
+    contacts = Contact.select()
+   
+    contacts_list = [contact.to_dict() for contact in contacts]
+
+    return render_template('admin_dashboard.html', contacts=contacts_list)
+
 
 @app1.route('/logout')
 def logout():
