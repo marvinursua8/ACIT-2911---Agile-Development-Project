@@ -26,6 +26,9 @@
           <p><strong>{{ animal.house_trained }}</strong></p>
         </div>
         <p><strong>Description:</strong> {{ animal.description }}</p>
+        <div style="margin-top: 10px">
+          <button class="btn" onclick="goToForm()">Adopt Now</button>
+        </div>
     </div>
 </main>
 <script>
@@ -41,5 +44,8 @@
       });
     });
   })();
+  function goToForm() {
+    window.location.href = "{{ url_for('home.form') }}";
+  }
 </script>
 {% endblock %}
