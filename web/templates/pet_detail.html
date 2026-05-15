@@ -11,14 +11,18 @@
 <main class="page-container">
     <div class="card">
         <h2>{{ animal.name }}</h2>
-        {% if primary_image %}
-        <div class="centerpiece-image-container"><img id="centerpiece-image" class="detail-page-image" src="{{ primary_image.url }}" alt="{{ animal.name }}"></div>
-        {% endif %}
-        <div class="secondary-images-container">
-            {% for image in secondary_images %}
-            <img class="detail-page-image thumbnail-image" src="{{ image.url }}" alt="{{ animal.name }}">
-            {% endfor %}
+        {% if images %}
+        <div class="centerpiece-image-container">
+          <img id="centerpiece-image" class="detail-page-image" src="{{ images[0].url }}" alt="{{ animal.name }}">
         </div>
+        {% if num_images > 1 %}
+        <div class="thumbnails-container">
+          {% for image in images %}
+          <img class="detail-page-image thumbnail-image" src="{{ image.url }}" alt="{{ animal.name }}">
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
         <p><strong>Species:</strong> {{ animal.species }}</p>
         <p><strong>Breed:</strong> {{ animal.breed }}</p>
         <p><strong>Gender:</strong> {{ animal.gender }}</p>
@@ -37,14 +41,8 @@
     var thumbs = document.querySelectorAll(".thumbnail-image");
     thumbs.forEach(function (thumb) {
       thumb.addEventListener("click", function () {
-        var tempSrc = centerpiece.src;
-        var tempAlt = centerpiece.alt;
-
         centerpiece.src = thumb.src;
         centerpiece.alt = thumb.alt;
-
-        thumb.src = tempSrc;
-        thumb.alt = tempAlt;
       });
     });
   })();

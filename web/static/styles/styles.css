@@ -265,7 +265,7 @@ footer {
   object-fit: contain;
 }
 
-.secondary-images-container {
+.thumbnails-container {
   height: 100px;
   display: flex;
   gap: 5px;
