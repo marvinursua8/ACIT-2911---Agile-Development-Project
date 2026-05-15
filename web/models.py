@@ -1,4 +1,4 @@
-from peewee import Model, AutoField, CharField, ForeignKeyField, IntegerField, BooleanField, Check
+from peewee import Model, AutoField, CharField, ForeignKeyField, IntegerField, BooleanField, TextField, Check
 import datetime
 from .database import db
 from flask_login import UserMixin
@@ -63,7 +63,7 @@ class Image(Model):
         table_name = "images"
 
     id = AutoField()
-    url = CharField()
+    url = TextField()
     animal = ForeignKeyField(Animal, backref="images")
     is_primary= BooleanField(default=False)
 
@@ -93,3 +93,26 @@ class Admin(UserMixin, Model):
         database = db
         table_name = "admin"
 
+class Contact(Model):
+    class Meta:
+        database = db
+        table_name = "contacts"
+
+    id = AutoField()
+    name = CharField()
+    email = CharField()
+    phone = CharField()
+    animal = CharField()
+    message = CharField()
+    approved = BooleanField(default=False)  # allow / deny
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "phone": self.phone,
+            "animal": self.animal,
+            "message": self.message,
+            "approved": self.approved
+        }
