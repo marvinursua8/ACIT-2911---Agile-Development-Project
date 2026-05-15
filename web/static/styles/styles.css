@@ -16,6 +16,16 @@ h1 {
 h2 {
   font-size: 3rem;
   color: #458b74;
+  margin: 10px 0;
+}
+
+.editable-content {
+  max-width: 800px;
+  margin:0 auto;
+  padding: 20px;
+  font-size: 2rem;
+  font-weight: bolder;
+  color: black;
 }
 
 /* Navbar */
@@ -31,18 +41,20 @@ h2 {
   font-size: 2.5rem;
   font-weight: bold;
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 .nav-links a {
+  font-weight:bolder;
   margin-left: 20px;
   text-decoration: none;
-  color: white;
+  color: black;
   font-size: 1.8rem;
   transition: color 0.3s;
 }
 
 .nav-links a:hover {
+  font-weight: bolder;
   color: #20b2aa;
 }
 
@@ -130,7 +142,8 @@ footer {
 .gallery-card {
   position: relative;
   height: 400px;
-  flex: 0 1 calc(25% - 20px); /* 4 cards wide on desktop */
+  flex-wrap: wrap;
+  flex: 0 0 calc(33.33%); /* 4 cards wide on desktop */
   display: flex;
   border-radius: 20px;
   overflow: hidden;
@@ -160,6 +173,7 @@ footer {
 
 .name-overlay h2 {
   color: white; /* Name in white to keep theme */
+  font-weight: bolder;
   margin: 0;
   font-size: 2.5rem;
 }
@@ -198,14 +212,16 @@ footer {
   text-align: left;
   font-size: 1.4rem;
 }
-
+.gallery-row {
+  display: grid;
+  /* Creates 4 columns, each taking up 1 fraction of free space */
+  grid-template-columns: repeat(3, 1fr);
+  /* Optional: Adds spacing between cards */
+  gap: 20px;
+}
 /* HOVER EFFECT */
 .gallery-card:hover {
   flex: 0 1 calc(50% - 20px) !important;
-}
-
-.gallery-container:hover .gallery-card:not(:hover) {
-  flex: 0 1 calc(16.66% - 20px); /* Shrinks others to make room */
 }
 
 .gallery-card:hover .card-image {
