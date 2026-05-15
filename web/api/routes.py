@@ -116,7 +116,10 @@ def pet_detail(pet_id):
     
     primary_image = Image.get_or_none(Image.animal == animal, Image.is_primary == True)
     secondary_images = Image.select().where(Image.animal == animal, Image.is_primary == False)
-    return render_template('pet_detail.html', title=animal.name, animal=animal, primary_image=primary_image, secondary_images=secondary_images)
+    # The fact the primary image is the first makes it the initial centerpiece of the page
+    images = [primary_image] + list(secondary_images)
+    num_images = len(images)
+    return render_template('pet_detail.html', title=animal.name, animal=animal, images=images, num_images=num_images)
 
 
 @app1.route('/add_pet', methods=['GET', 'POST'])
