@@ -1,32 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Needed:
- A way to view all images (not just the primary)
- Adoption agency information 
- Adopt button -->
-<!-- Wanted:
- Make the gallery page cards appear clickable (beveled border?)
- Reduce Cumulative Layout Shift (always a problem but moreso here) -->
-<main class="page-container">
+<main class="pet-details-page">
     <div class="card">
         <h2>{{ animal.name }}</h2>
-        {% if primary_image %}
-        <div class="centerpiece-image-container"><img id="centerpiece-image" class="detail-page-image" src="{{ primary_image.url }}" alt="{{ animal.name }}"></div>
-        {% endif %}
-        <div class="secondary-images-container">
-            {% for image in secondary_images %}
-            <img class="detail-page-image thumbnail-image" src="{{ image.url }}" alt="{{ animal.name }}">
-            {% endfor %}
+        {% if images %}
+        <div class="centerpiece-image-container">
+          <img id="centerpiece-image" class="detail-page-image" src="{{ images[0].url }}" alt="{{ animal.name }}">
         </div>
-        <p><strong>Species:</strong> {{ animal.species }}</p>
-        <p><strong>Breed:</strong> {{ animal.breed }}</p>
-        <p><strong>Gender:</strong> {{ animal.gender }}</p>
-        <p><strong>Age:</strong> {{ animal.age }}</p>
-        <p><strong>Size:</strong> {{ animal.size }}</p>
-        <p><strong>Color:</strong> {{ animal.color }}</p>
-        <p><strong>{{ animal.house_trained }}</strong></p>
+        {% if num_images > 1 %}
+        <div class="thumbnails-container">
+          {% for image in images %}
+          <img class="detail-page-image thumbnail-image" src="{{ image.url }}" alt="{{ animal.name }}">
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
+        <div class="pet-details-container">
+          <p><strong>Species:</strong> {{ animal.species }}</p>
+          <p><strong>Breed:</strong> {{ animal.breed }}</p>
+          <p><strong>Gender:</strong> {{ animal.gender }}</p>
+          <p><strong>Age:</strong> {{ animal.age }}</p>
+          <p><strong>Size:</strong> {{ animal.size }}</p>
+          <p><strong>Color:</strong> {{ animal.color }}</p>
+          <p><strong>{{ animal.house_trained }}</strong></p>
+        </div>
         <p><strong>Description:</strong> {{ animal.description }}</p>
+        <div style="margin-top: 10px">
+          <button class="btn" onclick="goToForm()">Adopt Now</button>
+        </div>
     </div>
 </main>
 <script>
@@ -37,16 +39,13 @@
     var thumbs = document.querySelectorAll(".thumbnail-image");
     thumbs.forEach(function (thumb) {
       thumb.addEventListener("click", function () {
-        var tempSrc = centerpiece.src;
-        var tempAlt = centerpiece.alt;
-
         centerpiece.src = thumb.src;
         centerpiece.alt = thumb.alt;
-
-        thumb.src = tempSrc;
-        thumb.alt = tempAlt;
       });
     });
   })();
+  function goToForm() {
+    window.location.href = "{{ url_for('home.form') }}";
+  }
 </script>
 {% endblock %}
