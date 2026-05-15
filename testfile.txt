@@ -1,6 +1,2 @@
-<<<<<<< HEAD
 me is testing
-=======
-testfiles
-t
->>>>>>> 4d90295927311167a09bf55e2cc8d51dce0233ec
+i am changing this file for on push yamls.
