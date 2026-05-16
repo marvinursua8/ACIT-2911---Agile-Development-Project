@@ -6,6 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from .. forms import LoginForm
 from .. config import Config
 from .. database import db
+from .. url_logic import optimized_image_url
 
 app1 = Blueprint("home", __name__)
 
@@ -104,6 +105,7 @@ def gallery():
     featured_animal_list = []
 
     for animal in animals:
+        animal["primary_image"] = optimized_image_url(animal["primary_image"])
         featured_animal_list.append(animal)
 
     return render_template('gallery.html', title="Gallery", animals=featured_animal_list, species_list=species_list), 200
