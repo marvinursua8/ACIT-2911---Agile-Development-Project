@@ -168,31 +168,6 @@ VALUES
         false
     );
 
--- users
-INSERT INTO
-    "public"."users" (
-        "id",
-        "first_name",
-        "last_name",
-        "email",
-        "phone_number"
-    )
-VALUES
-    (
-        1,
-        'Marvin',
-        'Ursua',
-        'marvinlu19@gmail.com',
-        '6043415550'
-    ),
-    (
-        2,
-        'Carlos',
-        'Waung',
-        'carlos.waung@gmail.com',
-        '6043415550'
-    );
-
 -- contacts
 INSERT INTO
     "public"."contacts" (
