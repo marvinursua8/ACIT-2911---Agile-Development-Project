@@ -26,6 +26,9 @@
       <div
         class="card-image"
         style="background-image: url('{{ animal.primary_image }}');"
+        {% if loop.index <= 4 %}
+        fetchpriority="high"
+        {% endif %}
       >
         <div class="name-overlay">
           <h2>{{ animal.name }}</h2>
