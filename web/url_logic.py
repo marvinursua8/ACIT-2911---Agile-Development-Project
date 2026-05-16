@@ -1,9 +1,9 @@
 import requests
 from urllib.parse import quote_plus
 
-def optimized_image_url(user_submitted_url):
+def optimized_image_url(user_submitted_url, width=500):
     def weserv_template(url):
-        return f"https://images.weserv.nl/?url={url}&w=300&fit=cover"
+        return f"https://images.weserv.nl/?url={url}&w={width}&fit=cover"
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
