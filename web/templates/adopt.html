@@ -37,9 +37,12 @@
         </div>
 
         <!-- Adopt Button -->
+        {% if not animal.adopted %}
         <div style="margin-top: 10px">
           <button class="btn" onclick="goToForm()">Adopt Now</button>
         </div>
+        {% endif %}
+
       </div>
     </div>
 
