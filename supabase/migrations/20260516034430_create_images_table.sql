@@ -1,4 +1,4 @@
-create table public.images (
+create table if not exists public.images (
   id serial not null,
   url text not null,
   animal_id integer not null,

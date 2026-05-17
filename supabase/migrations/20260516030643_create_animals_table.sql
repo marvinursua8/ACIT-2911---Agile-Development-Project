@@ -1,4 +1,4 @@
-create table public.animals (
+create table if not exists public.animals (
   id serial not null,
   name character varying(20) not null,
   species character varying(20) not null,

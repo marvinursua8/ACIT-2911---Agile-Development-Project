@@ -1,4 +1,4 @@
-create table public.admin (
+create table if not exists public.admin (
   id serial not null,
   username character varying(255) not null,
   password_hash character varying(255) not null,

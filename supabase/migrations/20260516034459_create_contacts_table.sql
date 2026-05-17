@@ -1,4 +1,4 @@
-create table public.contacts (
+create table if not exists public.contacts (
   id serial not null,
   name character varying(255) not null,
   email character varying(255) not null,
