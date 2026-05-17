@@ -245,6 +245,15 @@ VALUES
         '108',
         'yeeeee',
         false
+    ),
+    (
+        29,
+        'Shady Fella',
+        'xeno8b+bewg9v6nayk5k@guerrillamail.com',
+        '6663331337',
+        '130',
+        'Got Pets?',
+        false
     );
 
 -- images
