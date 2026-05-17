@@ -19,6 +19,7 @@ def index():
             Animal.name,
             Animal.breed,
             Animal.gender,
+            Animal.adopted,
             Image.url.alias("primary_image")
         )
         .join(
@@ -51,6 +52,7 @@ def adopt():
             Animal.name,
             Animal.breed,
             Animal.gender,
+            Animal.adopted,
             Image.url.alias("primary_image")
         )
         .join(
@@ -76,6 +78,7 @@ def gallery():
             Animal.breed,
             Animal.gender,
             Animal.species,
+            Animal.adopted,
             Image.url.alias("primary_image")
         )
         .join(
