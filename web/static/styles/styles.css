@@ -161,6 +161,7 @@ footer {
   background-position: center;
   position: relative;
   transition: min-width 0.6s ease;
+  z-index: 1;
 }
 
 .name-overlay {
@@ -518,4 +519,25 @@ form label {
 /* Show active tab */
 .content.visible {
   display: block; 
+}
+
+.adopted-ribbon {
+  position: absolute;
+  top: 20px;
+  right: -45px;
+  width: 160px;
+  padding: 8px 0;
+
+  background: red;
+  color: white;
+
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  transform: rotate(45deg);
+
+  z-index: 999;
+
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
