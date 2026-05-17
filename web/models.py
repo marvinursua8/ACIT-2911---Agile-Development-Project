@@ -31,15 +31,15 @@ class Animal(Model):
         table_name = "animals"
 
     id = AutoField()
-    name = CharField(max_length=20)
-    species = CharField(max_length=20)
-    breed = CharField(max_length=20)
-    gender = CharField(max_length=10)
+    name = TextField()
+    species = TextField()
+    breed = TextField()
+    gender = TextField()
     age = IntegerField()
     size = CharField(constraints=[Check("size IN ('small', 'medium', 'large')")])
-    color = CharField(max_length=20)
+    color = TextField()
     house_trained = CharField(constraints=[Check("house_trained IN ('House trained', 'Not house trained')")])
-    description = CharField()
+    description = TextField()
     adopted = BooleanField(default=False)
 
     def to_dict(self):
