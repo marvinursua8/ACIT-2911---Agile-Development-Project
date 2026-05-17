@@ -68,7 +68,8 @@
       <div class="content add-pet">
         <section class="content-section">
           <h2>Add a pet</h2>
-          <p>Helpful text Helpful text Helpful text</p>
+          <p>Fill & submit this form to immediately put a pet up for adoption</p>
+          <p>Fields marked with an asterisk are required</p>
         </section>
 
         <!-- Form -->
@@ -79,26 +80,26 @@
               autocomplete="off"
               action="{{ url_for('home.add_pet') }}"
             >
-              <label>Name</label>
+              <label>Name*</label>
               <input type="text" name="name" required />
 
-              <label>Species</label>
+              <label>Species*</label>
               <input type="text" name="species" required />
 
-              <label>Breed</label>
+              <label>Breed*</label>
               <input type="text" name="breed" required />
 
-              <label>Gender</label>
+              <label>Gender*</label>
               <select name="gender" required>
                 <option value="">Select one</option>
                 <option value="female">Female</option>
                 <option value="male">Male</option>
               </select>
 
-              <label>Age</label>
+              <label>Age*</label>
               <input type="number" name="age" step="1" required />
 
-              <label>Size</label>
+              <label>Size*</label>
               <select name="size" required>
                 <option value="">Select one</option>
                 <option value="small">Small</option>
@@ -106,20 +107,20 @@
                 <option value="large">Large</option>
               </select>
 
-              <label>Color</label>
+              <label>Color*</label>
               <input type="text" name="color" required />
 
-              <label>Are they house trained?</label>
+              <label>Are they house trained?*</label>
               <select name="house_trained" required>
                 <option value="">Select one</option>
                 <option value="House trained">Yes</option>
                 <option value="Not house trained">No</option>
               </select>
 
-              <label>Description</label>
+              <label>Description*</label>
               <textarea name="description" rows="5" required></textarea>
 
-              <label>Image URL</label>
+              <label>Primary image URL*</label>
               <input type="text" name="url" required />
 
               <button type="submit" class="btn">Submit</button>
