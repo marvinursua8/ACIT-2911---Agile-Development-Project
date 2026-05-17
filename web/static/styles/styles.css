@@ -500,7 +500,36 @@ form label {
     margin-top: 15px;
 }
 
+.form-card > form > button:last-child {
+  margin-top: 40px;
+}
 
+/* Add pet specific */
+
+#image-url-fields:empty {
+  display: none;
+}
+
+.removable-image-field {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+}
+.removable-image-field input {
+  border: none;
+}
+.removable-image-field button {
+  border: none;
+  border-left: 1px solid #ddd;
+  background: inherit;
+  box-shadow: none;
+  border-radius: 8px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  font-size: 2em;
+  transition: none;
+
+}
 /* --- Admin Dashboard Layout Fix --- */
 
 /* Pushes the ENTIRE right side of the page past the sidebar */

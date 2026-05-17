@@ -123,6 +123,10 @@
               <label>Primary image URL*</label>
               <input type="text" name="url" required />
 
+              <label>Secondary image URLs</label>
+              <ul id="image-url-fields"></ul>
+              <button type="button" id="add-image" class="btn">+ Add Field</button>
+
               <button type="submit" class="btn">Submit</button>
             </form>
           </div>
@@ -154,6 +158,32 @@
     </div> 
 
     <script>
+      // Add image button
+      document.querySelector("#add-image").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Create field element
+        const span = document.createElement('span');
+        span.className = 'removable-image-field';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'secondary-url';
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        const b = document.createElement('b');
+        b.textContent = '-';
+        button.appendChild(b);
+        button.addEventListener('click', () => span.remove());
+
+        span.appendChild(input);
+        span.appendChild(document.createTextNode(' '));
+        span.appendChild(button);
+        // Append to list
+        document.querySelector("#image-url-fields").append(span);
+      });
+
       // Add pet button
       document.querySelector("#addpet").addEventListener("click", (e) => {
         e.preventDefault();
