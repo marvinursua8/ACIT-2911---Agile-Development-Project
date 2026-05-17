@@ -166,6 +166,45 @@ VALUES
         'House trained',
         'Woof',
         false
+    ),
+    (
+        132,
+        'Gerald II',
+        'Cat',
+        'British Shorthair',
+        'Male',
+        11,
+        'small',
+        'Gray',
+        'Not house trained',
+        'Adopt him or else',
+        false
+    ),
+    (
+        149,
+        'DYLAN2.0',
+        'HUMAN',
+        'DEFINITELY',
+        'male',
+        67,
+        'large',
+        'WHITE',
+        'Not house trained',
+        '6767676767676767676767676767667',
+        false
+    ),
+    (
+        154,
+        'Nilla',
+        'Cat',
+        'American Short Hair',
+        'female',
+        10,
+        'small',
+        'Tortoiseshell',
+        'House trained',
+        'Nilla bean :)',
+        true
     );
 
 -- contacts
@@ -289,5 +328,59 @@ VALUES
         258,
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Blue-eyed_domestic_cat_%28Felis_silvestris_catus%29.jpg/960px-Blue-eyed_domestic_cat_%28Felis_silvestris_catus%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail',
         128,
+        true
+    ),
+    (
+        259,
+        'https://images.pexels.com/photos/13369505/pexels-photo-13369505.jpeg',
+        132,
+        true
+    ),
+    (
+        260,
+        'https://images.pexels.com/photos/10503544/pexels-photo-10503544.jpeg',
+        132,
+        false
+    ),
+    (
+        261,
+        'https://images.pexels.com/photos/20054401/pexels-photo-20054401.jpeg',
+        132,
+        false
+    ),
+    (
+        262,
+        'https://media.istockphoto.com/id/1319774380/photo/british-cat-lying-cat-tree-scratching-post.jpg?b=1&s=612x612&w=0&k=20&c=5Iyr5NbfRmLaDnM0r-mr2ViGBijJqPIHsGLbSkTbIzQ=',
+        132,
+        false
+    ),
+    (
+        263,
+        'https://images.pexels.com/photos/16691263/pexels-photo-16691263.jpeg',
+        132,
+        false
+    ),
+    (
+        264,
+        'https://images.pexels.com/photos/35279222/pexels-photo-35279222.jpeg',
+        132,
+        false
+    ),
+    (
+        265,
+        'https://images.pexels.com/photos/13773025/pexels-photo-13773025.jpeg',
+        132,
+        false
+    ),
+    (
+        266,
+        'https://cdn.discordapp.com/attachments/1498433978372194467/1504171661010796594/jail.gif?ex=6a07fec6&is=6a06ad46&hm=70a38e5870e32cbc76e4cc318498ac969b0d0b2d05727e3805b5cbcb5da5933e&',
+        149,
+        true
+    ),
+    (
+        274,
+        'https://cdn.discordapp.com/attachments/419741937868734475/1505052537261133834/IMG_5159.jpg?ex=6a0938e7&is=6a07e767&hm=7667d92c306504c6f1ee15c26d5f75686a9577deae8a31af02f359ca6cf82a9d&',
+        154,
         true
     );
