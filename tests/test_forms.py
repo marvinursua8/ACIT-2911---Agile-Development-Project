@@ -16,7 +16,7 @@ def test_form_submit_success(client):
         "name": "Test User",
         "email": "test@email.com",
         "phone": "6041234567",
-        "reason": "Adoption",
+        "animal": "1",
         "message": "Hello"
     })
 
@@ -28,7 +28,7 @@ def test_form_submit_missing_fields(client):
         "name": "",
         "email": "",
         "phone": "",
-        "reason": "",
+        "animal": "",
         "message": ""
     })
 

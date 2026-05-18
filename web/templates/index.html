@@ -40,6 +40,11 @@
   <div class="gallery-container">
     {% for animal in animals %}
     <div class="gallery-card">
+
+      {% if animal.adopted %}
+      <div class="adopted-ribbon">ADOPTED</div>
+      {% endif %}
+      
       <div
         class="card-image"
         style="background-image: url('{{ animal.primary_image }}');"

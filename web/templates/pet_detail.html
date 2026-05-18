@@ -3,6 +3,9 @@
 {% block content %}
 <main class="pet-details-page">
     <div class="card">
+        {% if animal.adopted %}
+        <div class="adopted-ribbon">ADOPTED</div>
+        {% endif %}
         <h2>{{ animal.name }}</h2>
         {% if images %}
         <div class="centerpiece-image-container">
@@ -26,9 +29,11 @@
           <p><strong>{{ animal.house_trained }}</strong></p>
         </div>
         <p><strong>Description:</strong> {{ animal.description }}</p>
+        {% if not animal.adopted %}
         <div style="margin-top: 10px">
           <button class="btn" onclick="goToForm()">Adopt Now</button>
         </div>
+        {% endif %}
     </div>
 </main>
 <script>
