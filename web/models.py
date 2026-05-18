@@ -99,11 +99,11 @@ class Contact(Model):
         table_name = "contacts"
 
     id = AutoField()
-    name = CharField()
-    email = CharField()
-    phone = CharField()
-    animal = CharField()
-    message = CharField()
+    name = TextField()
+    email = TextField()
+    phone = TextField()
+    animal = TextField()
+    message = TextField()
     approved = BooleanField(default=False)  # allow / deny
 
     def to_dict(self):
