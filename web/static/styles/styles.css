@@ -405,6 +405,23 @@ form label {
   background-color: #111; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 20px;
+  transform: translateX(-155px);
+  transition: transform 0.3s ease;
+}
+
+.trigger {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 100vh;
+  z-index: 2;
+}
+
+/* Only show sidebar on hover */
+.trigger:hover + .sidenav,
+.sidenav:hover {
+  transform: translateX(0);
 }
 
 /* The navigation menu links */
