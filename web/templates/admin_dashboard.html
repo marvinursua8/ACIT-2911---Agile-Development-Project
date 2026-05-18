@@ -16,7 +16,7 @@
     <style>
       .main-wrapper {
         margin-left: 200px; /* Ensure this is larger than your sidebar width */
-        padding: 20px;
+        padding: 20px 20px 200px 20px;
         box-sizing: border-box;
       }
 
@@ -124,9 +124,10 @@
               <input type="text" name="url" required />
 
               <label>Secondary image URLs</label>
-              <ul id="image-url-fields"></ul>
-              <button type="button" id="add-image" class="btn">+ Add Field</button>
-
+              <div class="secondary-image-url-interaction">
+                <ul id="secondary-image-url-fields"></ul>
+                <button type="button" id="add-image" class="btn"><b>+</b> Add Field</button>
+              </div>
               <button type="submit" class="btn">Submit</button>
             </form>
           </div>
@@ -181,7 +182,7 @@
         span.appendChild(document.createTextNode(' '));
         span.appendChild(button);
         // Append to list
-        document.querySelector("#image-url-fields").append(span);
+        document.querySelector("#secondary-image-url-fields").append(span);
       });
 
       // Add pet button
