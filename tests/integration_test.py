@@ -1,4 +1,5 @@
 import pytest
+from flask import abort
 from .shared import client, add_pet, get_pet, cleanup, ANIMAL_DATA, TEST_IMAGE_URL, TEST_USER_ID, TEST_NON_PRIMARY_IMAGE_URL
 from web.models import Animal, User, Image
 from web.database import db
@@ -127,3 +128,15 @@ class TestHomepagePetImage:
 
             for existing_image in existing_images:
                 existing_image.save(force_insert=True)
+
+class TestErrorPages:
+    def test_404(self, client):
+        response = client.get("/path/which/will/never/exist")
+        assert response.status_code == 404
+        response_text = response.get_data(as_text=True)
+        assert "404" in response_text
+    def test_generic(self, client):
+        response = client.get("test500")
+        assert response.status_code == 500
+        response_text = response.get_data(as_text=True)
+        assert "An unexpected error occurred" in response_text
