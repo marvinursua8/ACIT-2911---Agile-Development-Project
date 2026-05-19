@@ -8,6 +8,10 @@ body {
   text-align: center;
 }
 
+p {
+  font-size: 22px !important;
+}
+
 h1 {
   font-size: 4rem;
   color: #20b2aa; /* Darker aquamarine for readability */
@@ -563,3 +567,4 @@ form label {
   position: relative;
   overflow: hidden;
 }
+
