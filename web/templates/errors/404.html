@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>404</h1>
-    <p>The page you requested could not be found.</p>
+<div id="error-page">
+    <div>
+        <h1>404</h1>
+        <p>We couldn't find the page you requested</p>
+    </div>
+    <figure>
+        <img src="{{ url_for('static', filename='graphics/cat.svg') }}" width="150" alt="Simple seafoam green cat icon" />
+        <figcaption>Icon created by Stevanus from Noun Project</figcaption>
+    </figure>
+    </div>
 {% endblock %}
