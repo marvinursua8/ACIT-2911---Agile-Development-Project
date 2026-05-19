@@ -1,5 +1,4 @@
 from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect,request
-from werkzeug.exceptions import HTTPException
 from peewee import JOIN, fn
 
 from .. models import User, Animal, Image, Admin, Contact
@@ -9,16 +8,6 @@ from .. config import Config
 from .. database import db
 
 app1 = Blueprint("home", __name__)
-
-# Move to separate blueprint
-@app1.app_errorhandler(404)
-def not_found_error(error):
-    return render_template('errors/404.html'), 404
-
-@app1.app_errorhandler(HTTPException)
-def generic_error(error):
-    return render_template('errors/generic.html'), 404
-
 
 @app1.route('/')
 def index():
