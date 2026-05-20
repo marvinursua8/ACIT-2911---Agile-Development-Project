@@ -30,6 +30,13 @@
         fetchpriority="high"
         {% endif %}
       >
+        <img
+          class="card-image-preload"
+          src="{{ animal.primary_image }}"
+          alt="{{ animal.name }}"
+          aria-hidden="true"
+          onerror="this.onerror=null;this.closest('.card-image').style.backgroundImage='url(/static/graphics/img_placeholder.svg)';"
+        />
         <div class="name-overlay">
           <h2>{{ animal.name }}</h2>
         </div>

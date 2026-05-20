@@ -9,12 +9,12 @@
         <h2>{{ animal.name }}</h2>
         {% if images %}
         <div class="centerpiece-image-container">
-          <img id="centerpiece-image" class="detail-page-image" src="{{ images[0].url }}" alt="{{ animal.name }}">
+          <img id="centerpiece-image" class="detail-page-image" src="{{ images[0].url }}" alt="{{ animal.name }}" onerror="this.onerror=null;this.src='/static/graphics/img_placeholder.svg';">
         </div>
         {% if num_images > 1 %}
         <div class="thumbnails-container">
           {% for image in images %}
-          <img class="detail-page-image thumbnail-image" src="{{ image.url }}" alt="{{ animal.name }}">
+          <img class="detail-page-image thumbnail-image" src="{{ image.url }}" alt="{{ animal.name }}" onerror="this.onerror=null;this.hidden=true;">
           {% endfor %}
         </div>
         {% endif %}

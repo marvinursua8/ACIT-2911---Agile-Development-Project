@@ -148,14 +148,14 @@ def add_pet():
             )
             pet.save() 
             primary_image = Image(
-                url=request.form.get("url"),
+                url=optimized_image_url(request.form.get("url")),
                 animal=pet,
                 is_primary = True
             )
             primary_image.save()
             for url in request.form.getlist("secondary_url"):
                 secondary_image = Image(
-                    url=url,
+                    url=optimized_image_url(url),
                     animal=pet,
                     is_primary = False
                 )
