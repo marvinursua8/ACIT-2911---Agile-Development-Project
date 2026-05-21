@@ -11,4 +11,5 @@ dependencies = [
     "flask-wtf>=1.2.1",
     "pytest>=9.0.3",
     "psycopg2-binary>=2.9.12",
+    "requests>=2.34.2",
 ]

@@ -6,6 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from .. forms import LoginForm
 from .. config import Config
 from .. database import db
+from .. url_logic import optimized_image_url
 
 app1 = Blueprint("home", __name__)
 
@@ -104,6 +105,7 @@ def gallery():
     featured_animal_list = []
 
     for animal in animals:
+        animal["primary_image"] = optimized_image_url(animal["primary_image"])
         featured_animal_list.append(animal)
 
     return render_template('gallery.html', title="Gallery", animals=featured_animal_list, species_list=species_list), 200
@@ -142,18 +144,19 @@ def add_pet():
                 size=request.form.get("size"),
                 color=request.form.get("color"),
                 house_trained=request.form.get("house_trained"),
-                description=request.form.get("description")
+                description=request.form.get("description"),
+                adopted=False
             )
             pet.save() 
             primary_image = Image(
-                url=request.form.get("url"),
+                url=optimized_image_url(request.form.get("url")),
                 animal=pet,
                 is_primary = True
             )
             primary_image.save()
             for url in request.form.getlist("secondary_url"):
                 secondary_image = Image(
-                    url=url,
+                    url=optimized_image_url(url),
                     animal=pet,
                     is_primary = False
                 )

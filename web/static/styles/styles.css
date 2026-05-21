@@ -168,6 +168,10 @@ footer {
   z-index: 1;
 }
 
+.card-image-preload {
+  display: none;
+}
+
 .name-overlay {
   position: absolute;
   bottom: 0;
