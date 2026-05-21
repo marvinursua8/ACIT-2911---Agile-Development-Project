@@ -1,5 +1,4 @@
 from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect,request
-
 from peewee import JOIN, fn
 
 from .. models import User, Animal, Image, Admin, Contact
@@ -128,11 +127,6 @@ def pet_detail(pet_id):
 @app1.route('/add_pet', methods=['GET', 'POST'])
 def add_pet():
     if request.method == 'POST':
-        default_user = User.get_or_none()  # This will fail if no users exist; replace with proper user selection
-        if not default_user:
-            flash("No users available to assign as owner.")
-            return redirect(url_for('home.admin_dashboard', section='add-pet'))
-        
         try:
             int(request.form.get("age"))
         except ValueError:
@@ -151,12 +145,19 @@ def add_pet():
                 description=request.form.get("description")
             )
             pet.save() 
-            image = Image(
+            primary_image = Image(
                 url=request.form.get("url"),
                 animal=pet,
                 is_primary = True
             )
-            image.save()
+            primary_image.save()
+            for url in request.form.getlist("secondary_url"):
+                secondary_image = Image(
+                    url=url,
+                    animal=pet,
+                    is_primary = False
+                )
+                secondary_image.save()
         
         flash(f"Pet successfully added")
         return redirect(url_for('home.admin_dashboard', section='add-pet')), 302

@@ -522,21 +522,63 @@ form label {
     margin-top: 15px;
 }
 
-
-/* --- Admin Dashboard Layout Fix --- */
-
-/* Pushes the ENTIRE right side of the page past the sidebar */
-.main-wrapper {
-  margin-left: 200px;
-  padding: 20px;
+.form-card > form > button:last-child {
+  margin-top: 40px;
 }
 
-/* Hide tabs by default */
-.content {
-  display: none; 
-  /* (Make sure to remove the margin-left from here!) */
+/* Add pet specific */
+
+#secondary-image-url-fields:empty {
+  display: none;
 }
 
+<<<<<<< HEAD
+#secondary-image-url-fields {
+  margin: 0px;
+  padding-inline-start: 0px;
+}
+
+.secondary-image-url-interaction {
+  display: flex;
+  flex-direction: column;
+  gap: 15px
+}
+
+.secondary-image-url-interaction button {
+  border: 1px solid #ddd;
+  background: white;
+  box-shadow: none;
+  border-radius: 8px;
+  /* replace hover effects */
+  color: black;
+  transform: none;
+  transition: background 0.3s ease;
+}
+
+.secondary-image-url-interaction button:hover {
+  background: #ddd;
+}
+
+
+.removable-image-field {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  margin-bottom: 15px;
+}
+.removable-image-field input {
+  flex-grow: 1;
+  border: none;
+}
+.removable-image-field button {
+  line-height: 0;
+  border: none;
+  border-left: 1px solid #ddd;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  font-size: 2em;
+}
+=======
 /* Show active tab */
 .content.visible {
   display: block; 
@@ -568,3 +610,20 @@ form label {
   overflow: hidden;
 }
 
+#error-page {
+  display: flex;
+  justify-content: center;
+}
+
+#error-page figure {
+  transform: translateY(+10px);
+  margin-top: auto;
+}
+#error-page img {
+  max-width: 100%;
+  height: auto;
+}
+#error-page figcaption {
+  font-size: 0.75rem;
+}
+>>>>>>> c831367eabeb9c359304d09d3c158783a629f0af

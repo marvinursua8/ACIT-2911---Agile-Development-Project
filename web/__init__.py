@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     from .api.routes import app1
+    from .errors import app as errors_bp
     login = LoginManager(app)
     login.login_view = 'home.login'
 
@@ -32,6 +33,7 @@ def create_app():
             db.close()
 
     app.register_blueprint(app1)
+    app.register_blueprint(errors_bp)
 
     with db:
         db.create_tables([User, Animal, Image, Admin], safe=True)

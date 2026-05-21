@@ -1,4 +1,5 @@
 import pytest
+from flask import abort
 from web import create_app
 from web.models import Animal, Image
 from web.database import db
@@ -28,6 +29,9 @@ TEST_NON_PRIMARY_IMAGE_URL = "www.example.com/test2.jpg"
 def client():
     app = create_app()
     app.config["TESTING"] = True
+    @app.route('/test500')
+    def adopt():
+        abort(500)
     with app.test_client() as client:
         yield client
 
