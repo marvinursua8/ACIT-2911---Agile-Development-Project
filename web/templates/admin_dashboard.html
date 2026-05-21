@@ -33,7 +33,9 @@
   </head>
   <body>
     <!-- 1. SIDEBAR STAYS ON THE LEFT -->
+    <div class="trigger"></div>
     <div class="sidenav">
+      <a href="{{ url_for('home.index')}}">Home</a>
       <a href="#" id="addpet">Add Pet</a>
       <a href="#" id="applications">Adoption checklist</a>
       <a href="{{ url_for('home.logout')  }}">Logout</a>
@@ -136,27 +138,33 @@
 
       <!-- Application section (Pet adoption requests) -->
       <div class="content application">
-        <h2>Applications</h2>
+  <div class="applications-container">
+    
+    {% for contact in contacts %}
+      {% for animal in animals %}
         
-        <div class="applications-container">
-          {% for contact in contacts %}
-            <div class="application-card">
-                <p><strong>{{ contact.name }}</strong> wants to adopt <strong>{{ contact.animal }}</strong></p>
-                <p>{{ contact.message }}</p>
-                
-                <form class="application-form" method="POST" action="{{ url_for('home.admin_dashboard') }}">
-                    <input type="hidden" name="contact_id" value="{{ contact.id }}">
-                    <button type="submit" name="action" value="allow">Allow</button>
-                    <button type="submit" name="action" value="deny">Deny</button>
-                </form>
-            </div> 
-          {% else %}
-            <p>Currently no applicants!</p>
-          {% endfor %}
-        </div>
-      </div>
-
-    </div> 
+        {% if contact.animal == animal.id|string and not animal.adopted %}
+          
+          <div class="application-card">
+            <p><strong>{{ contact.name }}</strong> wants to adopt <strong>{{ animal.name }}</strong></p>
+            <p>{{ contact.message }}</p>
+              
+            <form class="application-form" method="POST" action="{{ url_for('home.admin_dashboard') }}">
+                <input type="hidden" name="contact_id" value="{{ contact.id }}">
+                <button type="submit" name="action" value="allow">Allow</button>
+                <button type="submit" name="action" value="deny">Deny</button>
+            </form>
+          </div> 
+          
+        {% endif %}
+        
+      {% endfor %}
+    {% else %}
+      <p>Currently no applicants!</p>
+    {% endfor %}
+    
+  </div>
+</div>
 
     <script>
       // Add image button
