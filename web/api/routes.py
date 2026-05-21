@@ -144,7 +144,8 @@ def add_pet():
                 size=request.form.get("size"),
                 color=request.form.get("color"),
                 house_trained=request.form.get("house_trained"),
-                description=request.form.get("description")
+                description=request.form.get("description"),
+                adopted=False
             )
             pet.save() 
             primary_image = Image(
