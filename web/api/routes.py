@@ -280,11 +280,17 @@ def admin_dashboard():
             
         return redirect(url_for('home.admin_dashboard', section='application'))
     
+    animals_to_view = Animal.select()
+    animal_list = []
+
+    for animal in animals_to_view:
+        animal_list.append(animal.to_dict())
+
     contacts = Contact.select()
    
     contacts_list = [contact.to_dict() for contact in contacts]
 
-    return render_template('admin_dashboard.html', contacts=contacts_list)
+    return render_template('admin_dashboard.html', contacts=contacts_list, animals=animal_list)
 
 
 @app1.route('/logout')
