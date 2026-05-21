@@ -1,5 +1,4 @@
 from flask import current_app, render_template, Blueprint, jsonify, flash, url_for, redirect,request
-
 from peewee import JOIN, fn
 
 from .. models import User, Animal, Image, Admin, Contact
