@@ -536,7 +536,6 @@ form label {
   display: none;
 }
 
-<<<<<<< HEAD
 #secondary-image-url-fields {
   margin: 0px;
   padding-inline-start: 0px;
@@ -582,7 +581,6 @@ form label {
   border-bottom-left-radius: 0px;
   font-size: 2em;
 }
-=======
 /* Show active tab */
 .content.visible {
   display: block; 
@@ -630,4 +628,3 @@ form label {
 #error-page figcaption {
   font-size: 0.75rem;
 }
->>>>>>> c831367eabeb9c359304d09d3c158783a629f0af
