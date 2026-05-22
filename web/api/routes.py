@@ -105,7 +105,6 @@ def gallery():
     featured_animal_list = []
 
     for animal in animals:
-        animal["primary_image"] = optimized_image_url(animal["primary_image"])
         featured_animal_list.append(animal)
 
     return render_template('gallery.html', title="Gallery", animals=featured_animal_list, species_list=species_list), 200
